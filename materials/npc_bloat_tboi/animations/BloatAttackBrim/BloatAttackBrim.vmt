@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_bloat_tboi/animations/BloatAttackBrim/BloatAttackBrim"
+	"$surfaceprop" "Flesh"
+	"$nolod" 1
+	"$translucent" 1
+}
