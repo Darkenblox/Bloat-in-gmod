@@ -13,7 +13,6 @@ local color_white = Color(255,255,255)
 
 function ENT:Initialize()
     self:SetModel("models/xqm/rails/gumball_1.mdl")   
-    print(self.BloatParent)
     self:PhysicsInit(SOLID_VPHYSICS)
     self:SetMoveType(MOVETYPE_VPHYSICS)                 
     self:SetSolid(SOLID_VPHYSICS)
