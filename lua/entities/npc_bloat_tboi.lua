@@ -164,6 +164,20 @@ function ENT:ComputeDrawNormal(player)
 	return xyNormal
 end
 
+function ENT:ComputeDrawBrimNormal(player,fwd)					
+	local pos = self:GetPos()
+	local normal = player:GetPos() - pos
+	local xyNormal = vector_origin
+	if fwd then 
+		xyNormal = vector_rgt*normal.y + vector_up*normal.z
+	else 
+		xyNormal = vector_fwd*normal.x + vector_up*normal.z
+	end
+	xyNormal:Normalize()
+	-- return vector_fwd
+	return xyNormal
+end
+
 if SERVER then
 
 function ENT:HandleJump(seekpos)
@@ -342,6 +356,16 @@ function ENT:Draw()
 	render.SetMaterial(switch_mat[self:GetState()])
 	switch_mat[self:GetState()]:SetInt("$frame",math.floor(self:GetFrame()))
 	render.DrawQuadEasy(self:SprPos(),self:ComputeDrawNormal(LocalPlayer()),self.Height/2,self.Height,color_white,180)
+	render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim01/BloatBrim01.vmt"))
+	local relativeY = LocalPlayer():GetPos().y>self:GetPos().y and 1 or -1
+	local relativeX = LocalPlayer():GetPos().x>self:GetPos().x and 1 or -1
+	render.DrawQuadEasy(self:BellyPos()- relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX + 90*relativeY)
+	render.DrawQuadEasy(self:BellyPos()- relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeX - 90*relativeY)
+	render.DrawQuadEasy(self:BellyPos()+ relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX - 90*relativeY)
+	render.DrawQuadEasy(self:BellyPos()+ relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeY + 90*relativeX)
+	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
+		
+	end
 end	
 
 language.Add("npc_bloat_tboi", "LITTLE FUCKER")
