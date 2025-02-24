@@ -1,8 +1,9 @@
 AddCSLuaFile()
 
 ENT.Base 		= "base_nextbot"
-ENT.Spawnable	= true
 
+ENT.BellyOffset	= Vector(0,0,80)
+ENT.SprOffset 		= Vector(0,0,213)
 --DONT FORGET TO CHECK IF PLAYER IS NOCLIPPING
 --frame increment in GM:Think
 
@@ -13,6 +14,8 @@ local mins, maxs = Vector( -24, -3, -2 ), Vector( 24, 3, 2 )
 local vector_fwd = Vector(1,0,0)
 local vector_rgt = Vector(0,1,0)
 local vector_up = Vector(0,0,1)
+
+local workshopID = ""
 
 local switch_mat = {
 	["Death"] = Material("npc_bloat_tboi/animations/BloatDeath/BloatDeath.vmt"),
@@ -26,53 +29,96 @@ local switch_mat = {
 	["Idle"] = Material("npc_bloat_tboi/animations/BloatIdle/BloatIdle.png")
 }
 
---DebugDraw
-hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
-	local Playerxy = Vector(LocalPlayer():GetPos().x,LocalPlayer():GetPos().y)	
+function ENT:SetupDataTables()
+	self:NetworkVar("Float",0,"Frame")
+	self:NetworkVar("String",1,"State")
+	self:NetworkVar("Int",2,"BrimRange")
+	self:NetworkVarNotify("State",function ()
+		self:SetFrame(0)
+	end)
+	if SERVER then
+		self:SetBrimRange(2000)
+	end
+end
+
+function ENT:BellyPos()
+	return self:GetPos() + self.BellyOffset
+end
+
+function ENT:SprPos()
+	return self:GetPos() + self.SprOffset
+end
+
+function ENT:CheckBrim(startpos)
+
+	local OBBscale = startpos and 0.25 or 1
+	startpos = startpos and self:BellyPos() or self:GetPos()
+
+	local filteredents = {}
 	for k,v in pairs(ents.GetAll()) do
-		if v:GetClass() == "npc_bloat_tboi" then
-			local min,max = v:GetCollisionBounds()
-			local tleft,tright,tfwd,tbck = v:CheckBrim()
-			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v.BrimRange,color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v.BrimRange,color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v.BrimRange,color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v.BrimRange,color_red,true)
-			render.SetColorMaterial()
-			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)		
-			render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
-			-- render.DrawSphere(v:BellyPos(),1200,50,50,color_red)
+		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v:GetClass() != "npc_bloat_tboi" then
+			table.insert(filteredents,v)
 		end
 	end
-end )
---end draw line
+	table.insert(filteredents,game.GetWorld())
+	local TrLeft = util.TraceHull({
+	start = startpos,
+	endpos = startpos - vector_rgt*self:GetBrimRange(),
+	mins = self:OBBMins() * OBBscale,
+	maxs = self:OBBMaxs() * OBBscale,
+	whitelist = true,
+	filter = filteredents
+	})
+	local TrRight = util.TraceHull({
+	start = startpos,
+	endpos = startpos + vector_rgt*self:GetBrimRange(),
+	mins = self:OBBMins() * OBBscale,
+	maxs = self:OBBMaxs() * OBBscale,
+	whitelist = true,
+	filter = filteredents
+	})
+	local TrForward = util.TraceHull({
+	start = startpos,
+	endpos = startpos + vector_fwd*self:GetBrimRange(),
+	mins = self:OBBMins() * OBBscale,
+	maxs = self:OBBMaxs() * OBBscale,
+	whitelist = true,
+	filter = filteredents
+	})
+	local TrBack = util.TraceHull({
+	start = startpos,
+	endpos = startpos - vector_fwd*self:GetBrimRange(),
+	mins = self:OBBMins() * OBBscale,
+	maxs = self:OBBMaxs() * OBBscale,
+	whitelist = true,
+	filter = filteredents
+	})
+	return TrLeft,TrRight,TrForward,TrBack	
+end
+
+function ENT:ComputeDrawNormal(player)					
+	local pos = self:GetPos()
+	local normal = player:GetPos() - pos
+	local xyNormal = vector_fwd*normal.x + vector_rgt*normal.y
+	xyNormal:Normalize()
+	return xyNormal
+end
+
+if SERVER then
 
 function ENT:Initialize()
-	self.JumpedDown 	= false
-	self.BrimRange 		= 900
-	self.Height 		= 512
-	self.BellyOffset	= Vector(0,0,80)
-	self.SprOffset 		= Vector(0,0,213)	--SpriteOffset		
+	self.JumpedDown 	= false		
 	self.LoseTargetDist	= 2100	-- How far the enemy has to be before we lose them
 	self.SearchRadius 	= 2000	-- How far to search for enemies
 	self:SetHealth(100)
 	self:SetState("Appear")
 
 	--set to this model for collisions and hitbox
-	self:SetModel("models/props_phx/construct/metal_plate_curve360x2.mdl")	
-	self:SetCollisionBounds(Vector(-64,-64,0),Vector(64,64,145))
+	self:SetModel("models/props_phx/oildrum001.mdl")	
+	self:SetCollisionBounds(Vector(-64,-64,0)/4,Vector(64,64,145)/4)
+	self:SetModelScale(4,0)
 	self:SetAngles(angle_zero)
 	self:SetCollisionGroup(COLLISION_GROUP_NONE)
-end
-
-function ENT:SetupDataTables()
-	self:NetworkVar("Float",0,"Frame")
-	self:NetworkVar("String",1,"State")
-	self:NetworkVarNotify("State",function ()
-		self:SetFrame(0)
-	end)
 end
 
 function ENT:SetEnemy(ent)
@@ -99,7 +145,7 @@ end
 function ENT:FindEnemy()
 	local _ents = ents.FindInSphere( self:GetPos(), self.SearchRadius )
 	for k,v in ipairs( _ents ) do
-		if ( v:IsPlayer() ) then
+		if ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() ) then
 			self:SetEnemy(v)
 			return true
 		end
@@ -108,77 +154,7 @@ function ENT:FindEnemy()
 	return false
 end
 
-function ENT:BellyPos()
-	return self:GetPos() + self.BellyOffset
-end
-
-function ENT:SprPos()
-	return self:GetPos() + self.SprOffset
-end
-
-function ENT:CheckBrim()
-	local TrLeft = util.TraceHull({
-	start = self:GetPos(),
-	endpos = self:GetPos() - vector_rgt*self.BrimRange,
-	mins = self:OBBMins(),
-	maxs = self:OBBMaxs(),
-	whitelist = true,
-	filter = player.GetAll(),
-	ignoreworld = true,
-	})
-	local TrRight = util.TraceHull({
-	start = self:GetPos(),
-	endpos = self:GetPos() + vector_rgt*self.BrimRange,
-	mins = self:OBBMins(),
-	maxs = self:OBBMaxs(),
-	whitelist = true,
-	filter = player.GetAll(),
-	ignoreworld = true,
-	})
-	local TrForward = util.TraceHull({
-	start = self:GetPos(),
-	endpos = self:GetPos() + vector_fwd*self.BrimRange,
-	mins = self:OBBMins(),
-	maxs = self:OBBMaxs(),
-	whitelist = true,
-	filter = player.GetAll(),
-	ignoreworld = true,
-	})
-	local TrBack = util.TraceHull({
-	start = self:GetPos(),
-	endpos = self:GetPos() - vector_fwd*self.BrimRange,
-	mins = self:OBBMins(),
-	maxs = self:OBBMaxs(),
-	whitelist = true,
-	filter = player.GetAll(),
-	ignoreworld = true,
-	})
-	return TrLeft,TrRight,TrForward,TrBack	
-end
-
-function ENT:ComputeDrawNormal(player)					
-	local pos = self:GetPos()
-	local normal = player:GetPos() - pos
-	local xyNormal = vector_fwd*normal.x + vector_rgt*normal.y
-	xyNormal:Normalize()
-	return xyNormal
-end
-
-function ENT:ComputeDrawBrimNormal(player,fwd)					
-	local pos = self:GetPos()
-	local normal = player:GetPos() - pos
-	local xyNormal = vector_origin
-	if fwd then 
-		xyNormal = vector_rgt*normal.y + vector_up*normal.z
-	else 
-		xyNormal = vector_fwd*normal.x + vector_up*normal.z
-	end
-	xyNormal:Normalize()
-	-- return vector_fwd
-	return xyNormal
-end
-
-if SERVER then
+resource.AddWorkshop(workshopID)
 
 function ENT:HandleJump(seekpos)
 	--StartJump
@@ -211,7 +187,7 @@ function ENT:HandleJump(seekpos)
 	end
 	--JumpDown
 	if self:GetState() == "JumpDown" then
-		if self:GetFrame() > 28					 and self.JumpedDown == false then
+		if self:GetFrame() > 28	and self.JumpedDown == false then
 			for i=1,8 do
 				local tear = ents.Create("ent_bloat_tear")
 				tear:SetPos(self:BellyPos())
@@ -251,9 +227,9 @@ function ENT:RunBehaviour()
 			--Brim
 				--Brimcheck/damage
 				if self:GetState() == "AttackBrim" or self:GetState() == "Idle" then
-					local tleft,tright,tfwd,tbck = self:CheckBrim()
+					local tleft,tright,tfwd,tbck = self:CheckBrim(false)
 					for k,v in pairs({tleft,tright,tfwd,tbck}) do
-						if v.Hit then
+						if v.Hit and v.HitNonWorld then
 							if self:GetState() == "AttackBrim" then	
 								if self:GetFrame() >= 8 and self:GetFrame() <= 60 then
 									local dmg = DamageInfo()
@@ -320,7 +296,6 @@ hook.Add("Think","IncrementFrameBloat",function()
 	for k,v in pairs(ents.GetAll()) do
 		if v:GetClass() == "npc_bloat_tboi" then
 			v:SetFrame(v:GetFrame() + 30 * FrameTime())
-			--print(v:GetFrame())
 		end	
 	end
 end)
@@ -351,22 +326,118 @@ end
 
 if CLIENT then
 
+function ENT:ComputeDrawBrimNormal(fwd,brimpos)					
+	local normal = LocalPlayer():EyePos() - brimpos
+	-- render.DrawBox(pos,angle_zero,Vector(1000,1000,1000),Vector(-1000,-1000,-1000),color_red)
+	normal:Normalize()
+	local xyNormal = vector_origin
+	if fwd then 
+		xyNormal = vector_rgt*normal.y + vector_up*normal.z
+	else 
+		xyNormal = vector_fwd*normal.x + vector_up*normal.z
+	end
+	xyNormal:Normalize()	-- return vector_fwd
+	xyNormal.z = math.max(xyNormal.z,0)
+	return xyNormal
+end
+
+--DebugDraw AND BrimLaser draw
+hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
+	local Playerxy = Vector(LocalPlayer():GetPos().x,LocalPlayer():GetPos().y)	
+	for k,v in pairs(ents.GetAll()) do
+		if v:GetClass() == "npc_bloat_tboi" then
+			local min,max = v:GetCollisionBounds()
+			local tleft,tright,tfwd,tbck = v:CheckBrim(false)
+			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
+			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
+			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
+			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
+			render.SetColorMaterial()
+			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
+			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
+			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
+			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)		
+			render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
+			-- render.DrawSphere(v:BellyPos(),1200,50,50,color_red)
+
+			-- non debug part
+			-- if v:GetState() == "AttackBrim" and v:GetFrame() >= 8 and v:GetFrame() <= 60 then
+				v:DrawBrim(false,false)
+				v:DrawBrim(true,false)
+				v:DrawBrim(true,true)
+				v:DrawBrim(false,true)
+			-- end
+		end
+	end
+end )
+
 function ENT:Draw()
 	self:SetRenderAngles(self:ComputeDrawNormal(LocalPlayer()):Angle())
 	render.SetMaterial(switch_mat[self:GetState()])
 	switch_mat[self:GetState()]:SetInt("$frame",math.floor(self:GetFrame()))
-	render.DrawQuadEasy(self:SprPos(),self:ComputeDrawNormal(LocalPlayer()),self.Height/2,self.Height,color_white,180)
-	render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim01/BloatBrim01.vmt"))
+	render.DrawQuadEasy(self:SprPos(),self:ComputeDrawNormal(LocalPlayer()),256,512,color_white,180)
+
+	-- print("Message in ENT:Draw : prevent brim from checking through walls and sprite goes through as well")
+end	
+
+-- this function is REALLY complicated i dunno what i was smoking
+function ENT:DrawBrim(fwd,close)
+	--either fwd or to the right
+	--close is for the ones closest to the player
 	local relativeY = LocalPlayer():GetPos().y>self:GetPos().y and 1 or -1
 	local relativeX = LocalPlayer():GetPos().x>self:GetPos().x and 1 or -1
-	render.DrawQuadEasy(self:BellyPos()- relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX + 90*relativeY)
-	render.DrawQuadEasy(self:BellyPos()- relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeX - 90*relativeY)
-	render.DrawQuadEasy(self:BellyPos()+ relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX - 90*relativeY)
-	render.DrawQuadEasy(self:BellyPos()+ relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeY + 90*relativeX)
-	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
+	local tr = {{},{}}
+	local tleft,tright,tfwd,tbck = self:CheckBrim(true)
+	-- 1 is X(fwd), 2 is Y(!fwd)
+	tr[2][-1] = tleft
+	tr[2][1] = tright 
+	tr[1][-1] = tbck
+	tr[1][1] = tfwd
+
+	local angle = 90 * (close==fwd and relativeX - relativeY or relativeX + relativeY)
+	local relative = fwd and relativeX or relativeY
+	local vector = fwd and vector_fwd or vector_rgt
+	relative = (close and 1 or -1) * relative
+
+	local impact = tr[fwd and 1 or 2][relative].HitPos + vector_up * (self:BellyPos().z - tr[fwd and 1 or 2][relative].HitPos.z)
+	local relativeImpact = fwd and impact.x or impact.y
+	local relativePos = fwd and self:GetPos().x or self:GetPos().y
+	local brimpos = vector_origin
+
+	brimpos = self:BellyPos() + relative * vector*128
+	render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim01/BloatBrim01.vmt"))
+	render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
+	-- if too close to wall dont draw the end
+	if relative * relativeImpact > relative * (relativePos + relative * 256) then
+		render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim02/BloatBrim02.vmt"))
+		local iterations = 0
+		while relative * relativeImpact > relative * (relativePos + relative * (128+(iterations+1)*256)) do
+			iterations = iterations + 1
+			brimpos = self:BellyPos()+ relative * vector*(127 + 256*iterations)
+			render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
+		end
 		
+		-- draw the end
+		brimpos = impact - relative*vector*64
+		render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
 	end
-end	
+	--draw impact
+	if tr[fwd and 1 or 2][relative].Hit then 
+		brimpos = impact
+		render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrimImpact/BloatBrimImpact.vmt"))
+		render.DrawQuadEasy(brimpos ,self:ComputeDrawBrimNormal(fwd,brimpos),128,128,color_white, angle - 90)
+	end
+
+	--need to account for which one is closer to the player so as to not draw one on top of the one behind it :(
+	--!close and fwd
+	--render.DrawQuadEasy(self:BellyPos()- relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX + 90*relativeY)
+	--!close and !fwd
+	--render.DrawQuadEasy(self:BellyPos()- relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeX - 90*relativeY)
+	--close and fwd
+	-- render.DrawQuadEasy(self:BellyPos() + relativeX * vector_fwd*128,self:ComputeDrawBrimNormal(LocalPlayer(),true),256,64,color_white, 90*relativeX - 90*relativeY)
+	--close and !fwd
+	-- render.DrawQuadEasy(self:BellyPos()+ relativeY * vector_rgt*128,self:ComputeDrawBrimNormal(LocalPlayer(),false),256,64,color_white, 90*relativeY + 90*relativeX)
+end
 
 language.Add("npc_bloat_tboi", "LITTLE FUCKER")
 

@@ -1,4 +1,4 @@
 "UnlitGeneric"
 {
-	"$basetexture" "vgui/npc_bloat_tboi"
+	"$basetexture ""vgui/entities/npc_bloat_tboi"
 }

@@ -1,0 +1,16 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_bloat_tboi/animations/BloatPuddle/BiggestBlood06/BiggestBlood06"
+	"$surfaceprop" "BloodyFlesh"
+	"$nolod" 1
+	"$translucent" 1
+	"Proxies" 
+	{
+		"AnimatedTexture" 
+		{
+			"animatedTextureVar" "$basetexture"
+			"animatedTextureFrameNumVar" "$frame"
+			"animatedTextureFrameRate" "30"
+		}
+	}
+}

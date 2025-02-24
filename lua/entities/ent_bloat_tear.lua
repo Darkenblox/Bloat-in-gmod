@@ -11,6 +11,8 @@ ENT.Bloat = nil
  
 local color_white = Color(255,255,255)
 
+if SERVER then
+
 function ENT:Initialize()
     self:SetModel("models/xqm/rails/gumball_1.mdl")   
     self:PhysicsInit(SOLID_VPHYSICS)
@@ -19,9 +21,11 @@ function ENT:Initialize()
     self:SetCollisionGroup(COLLISION_GROUP_PROJECTILE)
     self:GetPhysicsObject():EnableGravity(false)
     self:GetPhysicsObject():Wake()  
+    if self.move_vect == nil then
+        self.move_vect = vector_origin
+    end
 end
 
-if SERVER then
 function ENT:Think()
     self:GetPhysicsObject():SetVelocity(self.move_vect)
 end
@@ -33,15 +37,15 @@ function ENT:PhysicsCollide(colData,collider)
         self:Remove()
     end
 end 
+
 end
 
 if CLIENT then
 function ENT:ComputeDrawNormal()
     local pos = self:GetPos()
-    local normal = LocalPlayer():GetPos() - pos
-    local xyNormal = normal - vector_up*normal
-    xyNormal:Normalize()    
-    return xyNormal
+    local normal = LocalPlayer():EyePos() - pos
+    normal:Normalize()   
+    return normal
 end
 
 function ENT:Draw()
@@ -60,8 +64,3 @@ language.Add("ent_bloat_tear","Bloat")
 
 end
 
-list.Set( "NPC", "ent_bloat_tear", {
-	Name = "BloatTear",
-	Class = "ent_bloat_tear",
-	Category = "TBOI"
-})  
