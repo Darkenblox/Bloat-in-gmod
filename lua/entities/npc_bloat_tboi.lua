@@ -5,7 +5,7 @@ ENT.Base 		= "base_nextbot"
 ENT.BellyOffset	= Vector(0,0,80)
 ENT.SprOffset 		= Vector(0,0,213)
 --DONT FORGET TO CHECK IF PLAYER IS NOCLIPPING
---frame increment in GM:Think
+--WARN ABT NAVMESH
 
 local color_white = Color(255,255,255)
 local color_red = Color( 255, 0, 0 )
@@ -121,6 +121,14 @@ function ENT:Initialize()
 	self:SetCollisionGroup(COLLISION_GROUP_NONE)
 end
 
+hook.Add("Tick","DealBloodDamage",function ()
+	for k,v in pairs(ents.GetAll()) do
+		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" then
+			v:TakeDamage(1,ENT,v.puddleEnt)
+		end
+	end
+end)
+
 function ENT:SetEnemy(ent)
 	self.Enemy = ent
 end
@@ -205,20 +213,21 @@ function ENT:HandleJump(seekpos)
 end
 
 function ENT:RunBehaviour()
-	while true do	
+	while true do
 		if self:GetState() == "Appear" and self:GetFrame() > 19 then
 			self:SetState("Idle")
 		end
 		if self:GetState() == "Death" then
-			for i=1,100 do
+			if self:GetFrame() >73 then
+				self:Remove()
+			else
 				local explo = ents.Create( "env_explosion" )
 				explo:SetPos( self:GetPos() )
 				explo:Spawn()
-				explo:Fire( "Explode" )
+				-- explo:Fire( "Explode" )
 				explo:SetKeyValue( "IMagnitude", 0 )
 				coroutine.wait(0.02)	
 			end
-			self:Remove()	
 		else
 		if self:HaveEnemy() then
 			-- Look at enemy

@@ -48,21 +48,87 @@ if SERVER then
 
 function ENT:Initialize()
     -- self:SetModel("models/hunter/blocks/cube1x1x025.mdl")
-    self:SetCollisionBounds(Vector(-32,-32,0),Vector(32,32,0))
+    local puddlesize = math.floor(self:GetMatIndex() / 6)
+    if puddlesize == 0 then
+        puddlesize = 64
+    elseif puddlesize == 1 then
+        puddlesize = 128
+    else
+        puddlesize = 256
+    end
+    self:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
+    self:SetCollisionGroup(COLLISION_GROUP_WORLD)
     self:SetSolid(SOLID_BBOX)
-    self:SetCollisionGroup(COLLISION_GROUP_PLAYER)
     self:SetAngles(angle_zero)
     self.parentBloat = nil
+    self.trigger = ents.Create("trigger_bloat_puddle")
+    self.trigger.puddle = self
+    self.trigger:Spawn()
     self:SetMatIndex(1)
 end
 
-function ENT:Touch(entity)
-    entity.inBlood = true
+-- to delete (debug)
+hook.Add("PlayerButtonDown","Indexchange",function(ply,button)
+    for k,v in pairs(ents.GetAll()) do
+        if v:GetClass() == "ent_bloat_puddle" then
+            if button == KEY_DOWN then
+                v:SetMatIndex(v:GetMatIndex() - 1)
+            elseif button == KEY_UP then
+                v:SetMatIndex(v:GetMatIndex() + 1)
+            end
+        end
+    end
+end)
+
+function ENT:Think()
+
+    self.trigger:SetPos(self:GetPos())
+
+    local puddlesize = math.floor(self:GetMatIndex()/ 6)
+    if puddlesize == 0 then
+        puddlesize = 64
+    elseif puddlesize == 1 then
+        puddlesize = 128
+    else
+        puddlesize = 256
+    end
+    self:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
+    self.trigger:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
+
+    -- local colTbl = ents.FindInBox(self:OBBMins(),self:OBBMaxs())
+
+    -- for k,v in pairs(colTbl) do
+    --     if v:IsPlayer() or v:IsNPC() or v:IsNextBot() then
+    --         v.inBloatBlood = true
+    --         v.puddleEnt = self
+    --         if self.touchedEnts[v:GetName()] == nil then
+    --             self.touchedEnts[v:GetName()] = v
+    --         end
+    --     end
+    -- end
+
+    -- for k,v in pairs(ents.GetAll()) do
+    --     if self.touchedEnts[v:GetName()] != nil and !table.HasValue(colTbl,v) then
+    --         self.touchedEnts[v:GetName()] = nil 
+    --         v.inBloatBlood = false
+    --         v.puddleEnt = nil
+    --     end
+    -- end
 end
 
-function ENT:EndTouch(entity)
-    entity.inBlood = false
+-- function ENT:Touch(entity)
+--     entity.inBloatBlood = true
+--     entity.puddleEnt = self
+-- end
+
+-- function ENT:EndTouch(entity)
+--     entity.inBloatBlood = false
+--     entity.puddleEnt = nil
+-- end
+
 end
+
+if CLIENT then
 
 function ENT:ImpactTrace(traceTbl, DMGresult)
     if bit.band(DMGresult,DMG_BULLET) == DMG_BULLET then
@@ -76,34 +142,10 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
     end
 end
 
-hook.Add("PlayerButtonDown","Indexchange",function(ply,button)
-    for k,v in pairs(ents.GetAll()) do
-        if v:GetClass() == "ent_bloat_puddle" then
-            print(v:GetMatIndex())
-            if button == KEY_DOWN then
-                v:SetMatIndex(v:GetMatIndex() - 1)
-            elseif button == KEY_UP then
-                v:SetMatIndex(v:GetMatIndex() + 1)
-            end
-        end
-    end
-end)
-
-end
-
-if CLIENT then
-
 function ENT:Draw()
-    local puddlesize = math.floor(self:GetMatIndex() / 6)
-    if puddlesize == 0 then
-        puddlesize = 64
-    elseif puddlesize == 1 then
-        puddlesize = 128
-    else
-        puddlesize = 256
-    end
+    local puddlesize = self:OBBMaxs().x * 2
     render.SetMaterial(puddles[self:GetMatIndex()])
-    render.DrawQuadEasy(self:GetPos()-vector_up * self:OBBMaxs().z,vector_up,puddlesize,puddlesize,color_white,0)	
+    render.DrawQuadEasy(self:GetPos(),vector_up,puddlesize,puddlesize,color_white,0)	
     render.DrawWireframeBox(self:GetPos(), self:GetAngles(),self:OBBMins(),self:OBBMaxs(),color_white)
 end
 
