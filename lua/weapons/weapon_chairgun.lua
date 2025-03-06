@@ -126,5 +126,5 @@ function SWEP:ThrowChair( model_file )
 	-- A lot of items can clutter the workspace.
 	-- To fix this we add a 10 second delay to remove the chair after it was spawned.
 	-- ent:IsValid() checks if the item still exists before removing it, eliminating errors.
-	timer.Simple( 10, function() if ent and ent:IsValid() then ent:Remove() end end )
+	timer.Simple( 5, function() if ent and ent:IsValid() then ent:Remove() end end )
 end

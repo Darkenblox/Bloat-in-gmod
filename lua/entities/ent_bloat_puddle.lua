@@ -39,16 +39,19 @@ local puddles = {
 vector_up = Vector(0,0,1)
 
 color_white = Color(255,255,255)
+color_black = Color(0,0,0)
 
 function ENT:SetupDataTables()
-    self:NetworkVar("Int",0,"MatIndex")
+    self:NetworkVar("Int",0,"PuddleIndex")
+    self:NetworkVar("Bool",0,"ToDissolve")
 end
 
 if SERVER then
 
 function ENT:Initialize()
-    -- self:SetModel("models/hunter/blocks/cube1x1x025.mdl")
-    local puddlesize = math.floor(self:GetMatIndex() / 6)
+    self:SetToDissolve(false)
+    self:SetPuddleIndex(14)
+    local puddlesize = math.floor(self:GetPuddleIndex() / 6)
     if puddlesize == 0 then
         puddlesize = 64
     elseif puddlesize == 1 then
@@ -57,78 +60,74 @@ function ENT:Initialize()
         puddlesize = 256
     end
     self:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
-    self:SetCollisionGroup(COLLISION_GROUP_WORLD)
+    self:SetCollisionGroup(COLLISION_GROUP_DEBRIS)
     self:SetSolid(SOLID_BBOX)
     self:SetAngles(angle_zero)
-    self.parentBloat = nil
     self.trigger = ents.Create("trigger_bloat_puddle")
     self.trigger.puddle = self
     self.trigger:Spawn()
-    self:SetMatIndex(1)
+    self:DrawShadow(false)
+
+    timer.Simple(6,function() 
+        self:SetToDissolve(true)
+        if self.trigger:IsValid() then
+            self.trigger:Remove()
+        end
+        timer.Simple(3 ,function() 
+            if self:IsValid() then
+                self:Remove() 
+            end
+        end)
+    end)
 end
 
--- to delete (debug)
-hook.Add("PlayerButtonDown","Indexchange",function(ply,button)
-    for k,v in pairs(ents.GetAll()) do
-        if v:GetClass() == "ent_bloat_puddle" then
-            if button == KEY_DOWN then
-                v:SetMatIndex(v:GetMatIndex() - 1)
-            elseif button == KEY_UP then
-                v:SetMatIndex(v:GetMatIndex() + 1)
-            end
-        end
-    end
-end)
+-- -- to delete (debug)
+-- hook.Add("PlayerButtonDown","Indexchange",function(ply,button)
+--     for k,v in pairs(ents.GetAll()) do
+--         if v:GetClass() == "ent_bloat_puddle" then
+--             if button == KEY_DOWN then
+--                 v:SetPuddleIndex(v:GetPuddleIndex() - 1)
+--             elseif button == KEY_UP then
+--                 v:SetPuddleIndex(v:GetPuddleIndex() + 1)
+--             end
+--         end
+--     end
+-- end)
 
 function ENT:Think()
-
-    self.trigger:SetPos(self:GetPos())
-
-    local puddlesize = math.floor(self:GetMatIndex()/ 6)
-    if puddlesize == 0 then
-        puddlesize = 64
-    elseif puddlesize == 1 then
-        puddlesize = 128
-    else
-        puddlesize = 256
+    if self.trigger:IsValid() then
+        self.trigger:SetPos(self:GetPos())
     end
-    self:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
-    self.trigger:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
-
-    -- local colTbl = ents.FindInBox(self:OBBMins(),self:OBBMaxs())
-
-    -- for k,v in pairs(colTbl) do
-    --     if v:IsPlayer() or v:IsNPC() or v:IsNextBot() then
-    --         v.inBloatBlood = true
-    --         v.puddleEnt = self
-    --         if self.touchedEnts[v:GetName()] == nil then
-    --             self.touchedEnts[v:GetName()] = v
-    --         end
-    --     end
+    -- local puddlesize = math.floor(self:GetPuddleIndex()/ 6)
+    -- if puddlesize == 0 then
+    --     puddlesize = 64
+    -- elseif puddlesize == 1 then
+    --     puddlesize = 128
+    -- else
+    --     puddlesize = 256
+    -- end
+    -- self:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
+    -- if self.trigger:IsValid() then
+    --     self.trigger:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
     -- end
 
-    -- for k,v in pairs(ents.GetAll()) do
-    --     if self.touchedEnts[v:GetName()] != nil and !table.HasValue(colTbl,v) then
-    --         self.touchedEnts[v:GetName()] = nil 
-    --         v.inBloatBlood = false
-    --         v.puddleEnt = nil
-    --     end
-    -- end
-end
-
--- function ENT:Touch(entity)
---     entity.inBloatBlood = true
---     entity.puddleEnt = self
--- end
-
--- function ENT:EndTouch(entity)
---     entity.inBloatBlood = false
---     entity.puddleEnt = nil
--- end
+    local tr = util.TraceEntityHull({
+        start = self:GetPos(),
+        endpos = self:GetPos() - vector_up * 256,
+        collisiongroup = COLLISION_GROUP_DEBRIS,
+        filter = {self,self.trigger}
+    },self)
+    self:SetPos(tr.HitPos)    
+end 
 
 end
 
 if CLIENT then
+
+function ENT:Initialize()
+    self.spritesize = self:OBBMaxs().x * 2
+    self.color = color_white
+end
 
 function ENT:ImpactTrace(traceTbl, DMGresult)
     if bit.band(DMGresult,DMG_BULLET) == DMG_BULLET then
@@ -143,10 +142,19 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
 end
 
 function ENT:Draw()
-    local puddlesize = self:OBBMaxs().x * 2
-    render.SetMaterial(puddles[self:GetMatIndex()])
+    if self:GetToDissolve() then
+        self.spritesize = Lerp(0.01, self.spritesize, 0)
+        self.color = self.color:Lerp(color_black,0.005)
+    else
+        self.spritesize = self:OBBMaxs().x * 2
+    end
+    local puddlesize = self.spritesize
+    local color = self.color
+    local mat = puddles[self:GetPuddleIndex()]
+    mat:SetVector("$color",color:ToVector())
+    render.SetMaterial(mat)
     render.DrawQuadEasy(self:GetPos(),vector_up,puddlesize,puddlesize,color_white,0)	
-    render.DrawWireframeBox(self:GetPos(), self:GetAngles(),self:OBBMins(),self:OBBMaxs(),color_white)
+    -- render.DrawWireframeBox(self:GetPos(), self:GetAngles(),self:OBBMins(),self:OBBMaxs(),color_white)
 end
 
 end

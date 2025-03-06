@@ -37,7 +37,7 @@ function ENT:SetupDataTables()
 		self:SetFrame(0)
 	end)
 	if SERVER then
-		self:SetBrimRange(2000)
+		self:SetBrimRange(10000)
 	end
 end
 
@@ -51,12 +51,12 @@ end
 
 function ENT:CheckBrim(startpos)
 
-	local OBBscale = startpos and 0.25 or 1
-	startpos = startpos and self:BellyPos() or self:GetPos()
+	local OBBscale = startpos and 0.65 or 1
+	startpos = startpos and self:BellyPos() - vector_up * 50 or self:GetPos()
 
 	local filteredents = {}
 	for k,v in pairs(ents.GetAll()) do
-		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v:GetClass() != "npc_bloat_tboi" then
+		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v:GetClass() != "npc_bloat_tboi" and v:GetClass() != "ent_bloat_puddle" then
 			table.insert(filteredents,v)
 		end
 	end
@@ -119,12 +119,18 @@ function ENT:Initialize()
 	self:SetModelScale(4,0)
 	self:SetAngles(angle_zero)
 	self:SetCollisionGroup(COLLISION_GROUP_NONE)
+	
+	local coolBlood = ents.Create("ent_bloat_puddle")
+	coolBlood:Spawn()
+	coolBlood.parentBloat = self
+	coolBlood:SetPos(self:GetPos()+ vector_rgt * 200)
+	coolBlood:SetPuddleIndex(15)
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
 	for k,v in pairs(ents.GetAll()) do
 		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" then
-			v:TakeDamage(1,ENT,v.puddleEnt)
+			v:TakeDamage(1,v.puddleEnt.parentBloat,v.puddleEnt)
 		end
 	end
 end)
@@ -214,9 +220,6 @@ end
 
 function ENT:RunBehaviour()
 	while true do
-		if self:GetState() == "Appear" and self:GetFrame() > 19 then
-			self:SetState("Idle")
-		end
 		if self:GetState() == "Death" then
 			if self:GetFrame() >73 then
 				self:Remove()
@@ -224,11 +227,14 @@ function ENT:RunBehaviour()
 				local explo = ents.Create( "env_explosion" )
 				explo:SetPos( self:GetPos() )
 				explo:Spawn()
-				-- explo:Fire( "Explode" )
+				explo:Fire( "Explode" )
 				explo:SetKeyValue( "IMagnitude", 0 )
 				coroutine.wait(0.02)	
 			end
 		else
+		if self:GetState() == "Appear" and self:GetFrame() > 19 then
+			self:SetState("Idle")
+		end
 		if self:HaveEnemy() then
 			-- Look at enemy
 			self:SetAngles(self:ComputeDrawNormal(self:GetEnemy()):Angle())
@@ -236,7 +242,7 @@ function ENT:RunBehaviour()
 			--Brim
 				--Brimcheck/damage
 				if self:GetState() == "AttackBrim" or self:GetState() == "Idle" then
-					local tleft,tright,tfwd,tbck = self:CheckBrim(false)
+					local tleft,tright,tfwd,tbck = self:CheckBrim(true)
 					for k,v in pairs({tleft,tright,tfwd,tbck}) do
 						if v.Hit and v.HitNonWorld then
 							if self:GetState() == "AttackBrim" then	
@@ -312,6 +318,12 @@ end)
 function ENT:OnKilled( dmginfo )
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	self:SetState("Death")
+	-- just in case
+	timer.Simple(3,function()
+		if self:IsValid() then
+			self:Remove()
+		end
+	end)
 end
 
 --to delete
@@ -356,16 +368,16 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 	for k,v in pairs(ents.GetAll()) do
 		if v:GetClass() == "npc_bloat_tboi" then
 			local min,max = v:GetCollisionBounds()
-			local tleft,tright,tfwd,tbck = v:CheckBrim(false)
+			local tleft,tright,tfwd,tbck = v:CheckBrim(true)
 			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
 			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
 			render.SetColorMaterial()
-			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)
-			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins(),v:OBBMaxs(),color_red)		
+			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)		
 			render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
 			-- render.DrawSphere(v:BellyPos(),1200,50,50,color_red)
 
