@@ -425,23 +425,31 @@ function ENT:DrawBrim(fwd,close)
 	local relativePos = fwd and self:GetPos().x or self:GetPos().y
 	local brimpos = vector_origin
 
-	brimpos = self:BellyPos() + relative * vector*128
-	render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim01/BloatBrim01.vmt"))
-	render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
 	-- if too close to wall dont draw the end
-	if relative * relativeImpact > relative * (relativePos + relative * 256) then
+	if relative * relativeImpact > relative * (relativePos + relative * 140) then
+		-- draw the end
+		brimpos = impact - relative*vector*40
+		render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim03/BloatBrim03.vmt"))
+		render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),128,64,color_white, angle)
+
 		render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim02/BloatBrim02.vmt"))
 		local iterations = 0
-		while relative * relativeImpact > relative * (relativePos + relative * (128+(iterations+1)*256)) do
+		while relative * relativeImpact > relative * (relativePos + relative * (92 + (iterations+1)*128)) do
+			if iterations % 2 == 0 then
+				render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim02/BloatBrim02.vmt"))
+			else
+				render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim03/BloatBrim03.vmt"))
+			end
+			brimpos = self:BellyPos()+ relative * vector*(128*(iterations + 1) + 64)
+			render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),128,64,color_white, angle)
 			iterations = iterations + 1
-			brimpos = self:BellyPos()+ relative * vector*(127 + 256*iterations)
-			render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
 		end
-		
-		-- draw the end
-		brimpos = impact - relative*vector*64
-		render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),256,64,color_white, angle)
 	end
+	brimpos = self:BellyPos() + relative * vector*64
+	render.SetMaterial(Material("npc_bloat_tboi/animations/BloatBrim/BloatBrim01/BloatBrim01.vmt"))
+	render.DrawQuadEasy(brimpos,self:ComputeDrawBrimNormal(fwd,brimpos),128,64,color_white, angle)
+	
+	
 	--draw impact
 	if tr[fwd and 1 or 2][relative].Hit then 
 		brimpos = impact
