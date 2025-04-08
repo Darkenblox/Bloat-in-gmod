@@ -107,6 +107,7 @@ end
 if SERVER then
 
 function ENT:Initialize()
+	self:DrawShadow(false)
 	self.JumpedDown 	= false		
 	self.LoseTargetDist	= 2100	-- How far the enemy has to be before we lose them
 	self.SearchRadius 	= 2000	-- How far to search for enemies
@@ -119,12 +120,11 @@ function ENT:Initialize()
 	self:SetModelScale(4,0)
 	self:SetAngles(angle_zero)
 	self:SetCollisionGroup(COLLISION_GROUP_NONE)
+
+	self.bloodpuddles = {}
+	util.AddNetworkString("UpdatePuddleList")
 	
-	local coolBlood = ents.Create("ent_bloat_puddle")
-	coolBlood:Spawn()
-	coolBlood.parentBloat = self
-	coolBlood:SetPos(self:GetPos()+ vector_rgt * 200)
-	coolBlood:SetPuddleIndex(15)
+	self:SpillBlood()
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
@@ -159,7 +159,7 @@ end
 function ENT:FindEnemy()
 	local _ents = ents.FindInSphere( self:GetPos(), self.SearchRadius )
 	for k,v in ipairs( _ents ) do
-		if ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() ) then
+		if ( v:IsPlayer() or v:IsNPC() or v:IsNextBot() and v:GetClass()!="npc_bloat_tboi") then
 			self:SetEnemy(v)
 			return true
 		end
@@ -170,10 +170,51 @@ end
 
 resource.AddWorkshop(workshopID)
 
-function ENT:HandleJump(seekpos)
+function ENT:FireTears()
+	for i=1,8 do
+		local tear = ents.Create("ent_bloat_tear")
+		tear:SetPos(self:BellyPos())
+		tear.move_vect = Angle(0,45*i,0):Forward() * 1100
+		tear.BloatParent = self
+		tear:Spawn()
+	end
+end
+
+function ENT:CreatePuddle(index,pos)
+	local bloodent = ents.Create("ent_bloat_puddle")
+	-- bloodent.parentBloat = self
+	table.insert(self.bloodpuddles,bloodent)
+	self:UpdateClientsidePuddlesList()
+	bloodent:CallOnRemove("RemoveFromBloodList",function()
+		table.RemoveByValue(self.bloodpuddles,bloodent)
+		self:UpdateClientsidePuddlesList()
+	end)
+	bloodent:SetNoDraw(true)
+	bloodent:SetPos(pos)
+	bloodent:SetPuddleIndex(index)
+	bloodent:Spawn()
+end
+
+function ENT:UpdateClientsidePuddlesList()
+	net.Start("UpdatePuddleList")
+	net.WriteEntity(self)
+	net.WriteTable(self.bloodpuddles,false)
+	net.Broadcast()
+end
+
+function ENT:SpillBlood()
+	--one big blood
+	self:CreatePuddle(math.random(13,18),self:GetPos())
+	for i=1,5 do
+		self:CreatePuddle(math.random(7,12),self:GetPos()+ vector_fwd*math.random(128,-128) + vector_rgt*math.random(128,-128))
+		self:CreatePuddle(math.random(1,6),self:GetPos()+ vector_fwd*math.random(155,-155) + vector_rgt*math.random(155,-155))
+	end
+end
+
+function ENT:HandleJump(seekpos, jumprange)
 	--StartJump
 	if self:GetState() == "Idle" then
-		local targetarea = navmesh.Find(seekpos,900,100,100)
+		local targetarea = navmesh.Find(seekpos,jumprange,5000,5000)
 		if #targetarea == 0 then
 			self:GetEnemy():PrintMessage(3,"Bloat cant find a place to jump to, maybe try rebuilding navmesh")
 		else
@@ -185,30 +226,28 @@ function ENT:HandleJump(seekpos)
 		local iterations = 0
 		while self:GetState() == "JumpUp" do
 			iterations 	= iterations + 1
-			local targetarea = navmesh.Find(seekpos,900,100,100)
-			local targetpos = targetarea[math.random(#targetarea)]:GetRandomPoint()
-			local tr = util.TraceEntity({
-				start = targetpos,
-				endpos = targetpos
-			}, self)
-			if not tr.Hit then
-				self:SetPos(targetpos)
+			if iterations > 400 then
 				self:SetState("JumpDown")
-			elseif iterations > 400 then
-				self:SetState("JumpDown")
+			end
+			local targetarea = navmesh.Find(seekpos,jumprange,5000,5000)
+			if #targetarea > 0 then
+				local targetpos = targetarea[math.random(#targetarea)]:GetRandomPoint()
+				local tr = util.TraceEntity({
+					start = targetpos,
+					endpos = targetpos
+				}, self)
+				if not tr.Hit then
+					self:SetPos(targetpos)
+					self:SetState("JumpDown")
+				end
 			end
 		end
 	end
 	--JumpDown
 	if self:GetState() == "JumpDown" then
 		if self:GetFrame() > 28	and self.JumpedDown == false then
-			for i=1,8 do
-				local tear = ents.Create("ent_bloat_tear")
-				tear:SetPos(self:BellyPos())
-				tear.move_vect = Angle(0,45*i,0):Forward() * 1100
-				tear.BloatParent = self
-				tear:Spawn()
-			end
+			self:FireTears()
+			self:SpillBlood()
 			self.JumpedDown = true
 		end
 		if self:GetFrame() > 67 then
@@ -270,9 +309,9 @@ function ENT:RunBehaviour()
 
 			--Idle (brim takes priority)
 			if self:GetState() == "Idle" then
-				local idle_transition = math.random(1000)
+				local idle_transition = math.random(2000)
 				if 	idle_transition < 3 then 
-					self:HandleJump(self:GetEnemy():GetPos())
+					self:HandleJump(self:GetEnemy():GetPos(),1000)
 				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1200 then
 					if idle_transition < 8 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
 						self:SetState("Walk")
@@ -287,7 +326,7 @@ function ENT:RunBehaviour()
 
 			--Jumpstate
 			if self:GetState() == "JumpUp" or self:GetState() == "JumpDown" then
-				self:HandleJump(self:GetEnemy():GetPos())
+				self:HandleJump(self:GetEnemy():GetPos(),2000)
 			end
 
 			--Walk
@@ -298,8 +337,8 @@ function ENT:RunBehaviour()
 		
 		else
 			--Jump to random spot if cannot find an enemy
-			if math.random(5000) == 1 or self:GetState() == "JumpUp" or self:GetState() == "JumpDown" then
-				self:HandleJump(self:GetPos())
+			if math.random(1000) == 1 or self:GetState() == "JumpUp" or self:GetState() == "JumpDown" then
+				self:HandleJump(self:GetPos(),10000)
 			end
 		end
 		end
@@ -318,6 +357,11 @@ end)
 function ENT:OnKilled( dmginfo )
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	self:SetState("Death")
+	for k,v in pairs(self.bloodpuddles) do
+		if v.trigger:IsValid() then
+			v.trigger:Remove()
+		end
+	end
 	-- just in case
 	timer.Simple(3,function()
 		if self:IsValid() then
@@ -346,6 +390,19 @@ end
 end
 
 if CLIENT then
+
+function ENT:Initialize()
+	self.bloodpuddles = {}
+	net.Receive("UpdatePuddleList",function()
+		local ent = net.ReadEntity()
+		local bloodpuddles = net.ReadTable(false)
+		if ent == self then
+			self.bloodpuddles = bloodpuddles
+		end
+	end)
+
+	self:SetRenderBounds(self:OBBMins() * 300, self:OBBMaxs() * 300)
+end
 
 function ENT:ComputeDrawBrimNormal(fwd,brimpos)					
 	local normal = LocalPlayer():EyePos() - brimpos
@@ -378,26 +435,37 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)		
-			render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
-			-- render.DrawSphere(v:BellyPos(),1200,50,50,color_red)
+			-- render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
+			-- render.DrawWireframeSphere(v:BellyPos(),1000,50,50,color_red)
 
 			-- non debug part
 			-- if v:GetState() == "AttackBrim" and v:GetFrame() >= 8 and v:GetFrame() <= 60 then
-				v:DrawBrim(false,false)
-				v:DrawBrim(true,false)
-				v:DrawBrim(true,true)
-				v:DrawBrim(false,true)
+				-- v:DrawBrim(false,false)
+				-- v:DrawBrim(true,false)
+				-- v:DrawBrim(true,true)
+				-- v:DrawBrim(false,true)
 			-- end
 		end
 	end
 end )
 
 function ENT:Draw()
+	for k,v in pairs(self.bloodpuddles) do
+		v:DrawSprite()
+	end
+
+	-- self:DrawModel()
 	self:SetRenderAngles(self:ComputeDrawNormal(LocalPlayer()):Angle())
 	render.SetMaterial(switch_mat[self:GetState()])
 	switch_mat[self:GetState()]:SetInt("$frame",math.floor(self:GetFrame()))
 	render.DrawQuadEasy(self:SprPos(),self:ComputeDrawNormal(LocalPlayer()),256,512,color_white,180)
-
+	
+	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
+		self:DrawBrim(false,false)
+		self:DrawBrim(true,false)
+		self:DrawBrim(true,true)
+		self:DrawBrim(false,true)
+	end
 	-- print("Message in ENT:Draw : prevent brim from checking through walls and sprite goes through as well")
 end	
 

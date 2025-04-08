@@ -39,10 +39,11 @@ local puddles = {
 vector_up = Vector(0,0,1)
 
 color_white = Color(255,255,255)
-color_black = Color(0,0,0)
+color_black = Color(0,0,0,10)
 
 function ENT:SetupDataTables()
     self:NetworkVar("Int",0,"PuddleIndex")
+    self:SetPuddleIndex(1)
     self:NetworkVar("Bool",0,"ToDissolve")
 end
 
@@ -50,8 +51,7 @@ if SERVER then
 
 function ENT:Initialize()
     self:SetToDissolve(false)
-    self:SetPuddleIndex(14)
-    local puddlesize = math.floor(self:GetPuddleIndex() / 6)
+    local puddlesize = math.floor((self:GetPuddleIndex()-1) / 6)
     if puddlesize == 0 then
         puddlesize = 64
     elseif puddlesize == 1 then
@@ -110,14 +110,22 @@ function ENT:Think()
     -- if self.trigger:IsValid() then
     --     self.trigger:SetCollisionBounds(Vector(-puddlesize/2,-puddlesize/2,0),Vector(puddlesize/2,puddlesize/2,2))
     -- end
+    local filteredents = {self,self.trigger}
+    for k,v in pairs(ents.GetAll()) do
+        if v:IsNPC() or v:IsNextBot() or v:IsPlayer() then
+            table.insert(filteredents,v)
+        end
+    end
 
-    local tr = util.TraceEntityHull({
+    local tr = util.TraceHull({
         start = self:GetPos(),
         endpos = self:GetPos() - vector_up * 256,
+        mins = self:OBBMins(),
+        maxs = self:OBBMaxs(),
         collisiongroup = COLLISION_GROUP_DEBRIS,
-        filter = {self,self.trigger}
+        filter = filteredents
     },self)
-    self:SetPos(tr.HitPos)    
+    self:SetPos(tr.HitPos + vector_up * 1)    
 end 
 
 end
@@ -127,6 +135,7 @@ if CLIENT then
 function ENT:Initialize()
     self.spritesize = self:OBBMaxs().x * 2
     self.color = color_white
+    self.alpha = 1
 end
 
 function ENT:ImpactTrace(traceTbl, DMGresult)
@@ -142,16 +151,24 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
 end
 
 function ENT:Draw()
+    self:DrawSprite()
+end
+
+function ENT:DrawSprite()
+    self:SetRenderBounds(self:OBBMins()*10,self:OBBMaxs()*10)
     if self:GetToDissolve() then
         self.spritesize = Lerp(0.01, self.spritesize, 0)
         self.color = self.color:Lerp(color_black,0.005)
+        self.alpha = Lerp(0.005,self.alpha,0.1)
     else
         self.spritesize = self:OBBMaxs().x * 2
     end
     local puddlesize = self.spritesize
     local color = self.color
+    local alpha = self.alpha
     local mat = puddles[self:GetPuddleIndex()]
     mat:SetVector("$color",color:ToVector())
+    mat:SetFloat("$alpha",alpha)
     render.SetMaterial(mat)
     render.DrawQuadEasy(self:GetPos(),vector_up,puddlesize,puddlesize,color_white,0)	
     -- render.DrawWireframeBox(self:GetPos(), self:GetAngles(),self:OBBMins(),self:OBBMaxs(),color_white)
