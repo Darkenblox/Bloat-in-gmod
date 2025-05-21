@@ -133,13 +133,14 @@ function ENT:Initialize()
 	self.bloodpuddles = {}
 	util.AddNetworkString("UpdatePuddleList")
 	self:CallOnRemove("DeletePuddlesOnRemove",function() self:DeletePuddles() end)	
-	self:SpillBlood()
+	-- self:SpillBlood()
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
 	for k,v in pairs(ents.GetAll()) do
 		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" then
 			v:TakeDamage(1,v.puddleEnt.parentBloat,v.puddleEnt)
+			print(v)
 		end
 	end
 end)
@@ -194,7 +195,7 @@ function ENT:CreatePuddle(index,pos)
 	bloodent:SetNoDraw(true)
 	bloodent:SetPos(pos)
 	bloodent:SetPuddleIndex(index)
-	-- bloodent.parentBloat = self
+	bloodent.parentBloat = self
 	table.insert(self.bloodpuddles,bloodent)
 	self:UpdateClientsidePuddlesList()
 	bloodent:CallOnRemove("RemoveFromBloodList",function()
@@ -205,11 +206,10 @@ function ENT:CreatePuddle(index,pos)
 	end)
 	bloodent:Spawn()
 	timer.Simple(0.5,function() 
-		if self:IsValid() then
+		if self:IsValid() and bloodent:IsValid() then
+			bloodent.trigger:Spawn()
 			if self:GetPos():Distance(bloodent:GetPos()) > 700 then
-				if bloodent:IsValid() then
-					bloodent:Remove()
-				end
+				bloodent:Remove()
 			end
 		end
 	end)
@@ -280,7 +280,7 @@ function ENT:HandleJump(seekpos, jumprange)
 			self:FireTears()
 			self:SpillBlood()
 			self.JumpedDown = true
-			timer.Simple(1,function()
+			timer.Simple(1.5,function()
 				if self:IsValid() then
 					self.JumpedDown = false
 				end
@@ -348,14 +348,14 @@ function ENT:RunBehaviour()
 				if 	idle_transition < 3 then 
 					self:HandleJump(self:GetEnemy():GetPos(),1000)
 				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1200 then
-					if idle_transition < 8 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
+					if idle_transition < 11 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
 						self:SetState("Walk")
 						self.loco:SetDesiredSpeed(100)
 						self.loco:SetAcceleration(100)
 						self.loco:SetDeceleration(1000)
-					elseif idle_transition < 1200 then
+					elseif idle_transition < 17 then
 						self:SetState("AttackSlam")
-					elseif idle_transition < 16 then
+					elseif idle_transition < 23 then
 						self:SetState("AttackCreep")
 					end
 				end
@@ -390,7 +390,7 @@ function ENT:RunBehaviour()
 			--AttackCreep
 			if self:GetState() == "AttackCreep" then
 				if self:GetFrame() > 18 and self.SpilledBlood == false then
-					self:SpillBlood(2)
+					self:SpillBlood(1.5)
 					self.SpilledBlood = true
 					timer.Simple(1.5,function()
 						if self:IsValid() then

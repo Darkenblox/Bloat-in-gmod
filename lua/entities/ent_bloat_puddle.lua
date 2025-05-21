@@ -65,7 +65,7 @@ function ENT:Initialize()
     self:SetAngles(angle_zero)
     self.trigger = ents.Create("trigger_bloat_puddle")
     self.trigger.puddle = self
-    self.trigger:Spawn()
+    -- trigger spawned when bloat does it
     self:DrawShadow(false)
     self:CallOnRemove("DeleteTrigger",function()
         if self.trigger:IsValid() then
