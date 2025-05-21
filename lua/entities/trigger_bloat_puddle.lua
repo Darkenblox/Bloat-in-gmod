@@ -39,3 +39,9 @@ function ENT:EndTouch(entity)
 end
 
 end
+
+if CLIENT then
+    function ENT:Draw()
+        render.DrawBox(self:GetPos(),angle_zero,self:OBBMins(),self:OBBMaxs(),color_white )
+    end
+end

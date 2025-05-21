@@ -67,11 +67,18 @@ function ENT:Initialize()
     self.trigger.puddle = self
     self.trigger:Spawn()
     self:DrawShadow(false)
-
-    timer.Simple(6,function() 
-        self:SetToDissolve(true)
+    self:CallOnRemove("DeleteTrigger",function()
         if self.trigger:IsValid() then
             self.trigger:Remove()
+        end
+    end)
+
+    timer.Simple(6,function() 
+        if self:IsValid() then
+            self:SetToDissolve(true)
+            if self.trigger:IsValid() then
+                self.trigger:Remove()
+            end
         end
         timer.Simple(3 ,function() 
             if self:IsValid() then
@@ -125,7 +132,7 @@ function ENT:Think()
         collisiongroup = COLLISION_GROUP_DEBRIS,
         filter = filteredents
     },self)
-    self:SetPos(tr.HitPos + vector_up * 1)    
+    self:SetPos(tr.HitPos + vector_up * 1)
 end 
 
 end
