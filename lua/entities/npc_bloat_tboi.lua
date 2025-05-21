@@ -139,8 +139,7 @@ end
 hook.Add("Tick","DealBloodDamage",function ()
 	for k,v in pairs(ents.GetAll()) do
 		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" then
-			v:TakeDamage(1,v.puddleEnt.parentBloat,v.puddleEnt)
-			print(v)
+			v:TakeDamage(1,v.puddleEnt.parentBloat,v.puddleEnt.parentBloat)
 		end
 	end
 end)
@@ -345,7 +344,7 @@ function ENT:RunBehaviour()
 			--Idle (brim takes priority)
 			if self:GetState() == "Idle" then
 				local idle_transition = math.random(2000)
-				if 	idle_transition < 3 then 
+				if 	idle_transition < 4 then 
 					self:HandleJump(self:GetEnemy():GetPos(),1000)
 				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1200 then
 					if idle_transition < 11 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
@@ -492,6 +491,7 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
 			render.SetColorMaterial()
+			killicon.Render(50,50,"npc_bloat_tboi",255,true)
 			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
@@ -600,6 +600,7 @@ function ENT:DrawBrim(fwd,close)
 end
 
 language.Add("npc_bloat_tboi", "LITTLE FUCKER")
+killicon.Add("npc_bloat_tboi","vgui/hud/killicons/bloatkillicon",Color( 255, 255, 255,255))
 
 end
 

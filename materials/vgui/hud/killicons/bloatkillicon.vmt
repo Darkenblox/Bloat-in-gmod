@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "vgui/hud/killicons/bloatkillicon"
+	"$translucent" 1
+}

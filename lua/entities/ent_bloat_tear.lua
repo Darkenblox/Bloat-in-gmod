@@ -7,7 +7,7 @@ ENT.Category = "TBOI"
 ENT.PrintName = "Bloat Tear"
 ENT.ClassName = "ent_bloat_tear"
 
-ENT.Bloat = nil 
+ENT.BloatParent = nil 
  
 local color_white = Color(255,255,255)
 
@@ -60,7 +60,8 @@ function ENT:ImpactTrace()
     return true
 end
 
-language.Add("ent_bloat_tear","Bloat")
+language.Add("ent_bloat_tear","LITTLE FUCKER")
+killicon.Add("ent_bloat_tear","vgui/hud/killicons/bloatkillicon",Color( 255, 255, 255,255))
 
 end
 
