@@ -132,8 +132,10 @@ function ENT:Initialize()
 
 	self.bloodpuddles = {}
 	util.AddNetworkString("UpdatePuddleList")
-	self:CallOnRemove("DeletePuddlesOnRemove",function() self:DeletePuddles() end)	
+	self:CallOnRemove("DeletePuddlesAndEyesOnRemove",function() self:DeletePuddlesAndEyes() end)	
 	-- self:SpillBlood()
+
+	self.eyes = {}
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
@@ -179,6 +181,18 @@ end
 
 resource.AddWorkshop(workshopID)
 
+function ENT:SpawnEyes()
+	-- spawn eyes
+	for i=0,1 do
+		local eye = ents.Create("ent_bloat_eye")
+		table.insert(self.eyes,eye)
+		eye.move_vect = Angle(0,45+90*i,0):Forward() * 500
+		eye:SetPos(self:BellyPos()-vector_up *20)
+		eye.BloatParent = self
+		eye:Spawn()
+	end
+end
+
 function ENT:FireTears()
 	for i=1,8 do
 		local tear = ents.Create("ent_bloat_tear")
@@ -214,8 +228,13 @@ function ENT:CreatePuddle(index,pos)
 	end)
 end
 
-function ENT:DeletePuddles()
+function ENT:DeletePuddlesAndEyes()
 	for k,v in pairs(self.bloodpuddles) do
+		if v:IsValid() then
+			v:Remove()
+		end
+	end
+	for k,v in pairs(self.eyes) do
 		if v:IsValid() then
 			v:Remove()
 		end
@@ -306,6 +325,7 @@ function ENT:RunBehaviour()
 			end
 		else
 		if self:GetState() == "Appear" and self:GetFrame() > 19 then
+			self:SpawnEyes()
 			self:SetState("Idle")
 		end
 		if self:HaveEnemy() then
@@ -344,17 +364,17 @@ function ENT:RunBehaviour()
 			--Idle (brim takes priority)
 			if self:GetState() == "Idle" then
 				local idle_transition = math.random(2000)
-				if 	idle_transition < 4 then 
+				if 	idle_transition < 5 then 
 					self:HandleJump(self:GetEnemy():GetPos(),1000)
 				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1200 then
-					if idle_transition < 11 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
+					if idle_transition < 14 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
 						self:SetState("Walk")
 						self.loco:SetDesiredSpeed(100)
 						self.loco:SetAcceleration(100)
 						self.loco:SetDeceleration(1000)
-					elseif idle_transition < 17 then
+					elseif idle_transition < 20 then
 						self:SetState("AttackSlam")
-					elseif idle_transition < 23 then
+					elseif idle_transition < 25 then
 						self:SetState("AttackCreep")
 					end
 				end
@@ -421,7 +441,7 @@ end)
 function ENT:OnKilled( dmginfo )
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	self:SetState("Death")
-	self:DeletePuddles()
+	self:DeletePuddlesAndEyes()
 	-- just in case
 	timer.Simple(3,function()
 		if self:IsValid() then

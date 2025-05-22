@@ -7,7 +7,13 @@ ENT.Spawnable = true
 ENT.PrintName = "Bloat Tear"
 ENT.ClassName = "ent_bloat_tear"
 
-ENT.RemoveOnHit = true
 ENT.Material = Material("npc_bloat_tboi/animations/BloatTear/BloatTear.vmt")
 ENT.spritesize = 30
 ENT.Bounce = false
+
+if CLIENT then
+
+language.Add("ent_bloat_tear","LITTLE FUCKER")
+killicon.Add("ent_bloat_tear","vgui/hud/killicons/bloatkillicon",Color( 255, 255, 255,255))
+
+end

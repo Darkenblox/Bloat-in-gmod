@@ -8,7 +8,6 @@ ENT.PrintName = "Bloat Eye"
 ENT.ClassName = "ent_bloat_eye"
 
 ENT.BloatParent = nil 
-ENT.RemoveOnHit = true
 ENT.Material = Material("npc_bloat_tboi/animations/BloatEye/BloatEye.vmt")
 ENT.spritesize = 70
 ENT.Bounce = true
@@ -27,6 +26,7 @@ function ENT:Initialize()
     self:GetPhysicsObject():Wake()  
     if self.move_vect == nil then
         self.move_vect = vector_origin
+        -- self.move_vect = Vector(1,1,0):GetNormalized() * 500
     end
 end
 
@@ -37,9 +37,11 @@ end
 function ENT:PhysicsCollide(colData,collider)
     local hit_ent = colData.HitEntity
     if hit_ent:GetClass() != "npc_bloat_tboi" and hit_ent:GetClass() != "ent_bloat_tear" and hit_ent != "ent_bloat_eye" then  
-        hit_ent:TakeDamage(90, self.BloatParent, self.BloatParent)
-        if self.RemoveOnHit == true then
+        hit_ent:TakeDamage(90, self, self)
+        if self.Bounce == false then
             self:Remove()
+        else
+            self.move_vect = self.move_vect - 2 * (self.move_vect:Dot(colData.HitNormal)) * colData.HitNormal
         end
     end
 end 
