@@ -10,6 +10,7 @@ ENT.ClassName = "ent_bloat_tear"
 ENT.Material = Material("npc_bloat_tboi/animations/BloatTear/BloatTear.vmt")
 ENT.spritesize = 30
 ENT.Bounce = false
+ENT.Speed = 1100
 
 if CLIENT then
 

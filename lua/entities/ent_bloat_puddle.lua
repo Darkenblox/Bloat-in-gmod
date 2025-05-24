@@ -2,7 +2,7 @@ AddCSLuaFile()
 
 ENT.Base = "base_entity"
 ENT.Type = "anim"
-ENT.Spawnable = true
+ENT.Spawnable = false
 ENT.Category = "TBOI"
 ENT.PrintName = "Bloat Puddle"
 ENT.ClassName = "ent_bloat_puddle"

@@ -11,6 +11,7 @@ ENT.BloatParent = nil
 ENT.Material = Material("npc_bloat_tboi/animations/BloatEye/BloatEye.vmt")
 ENT.spritesize = 70
 ENT.Bounce = true
+ENT.Speed = 500
  
 local color_white = Color(255,255,255)
 
@@ -25,13 +26,16 @@ function ENT:Initialize()
     self:GetPhysicsObject():EnableGravity(false)
     self:GetPhysicsObject():Wake()  
     if self.move_vect == nil then
-        self.move_vect = vector_origin
-        -- self.move_vect = Vector(1,1,0):GetNormalized() * 500
+        -- self.move_vect = vector_origin
+        self.move_vect = Vector(1,1,0):GetNormalized() * self.Speed
     end
 end
 
 function ENT:Think()
     self:GetPhysicsObject():SetVelocity(self.move_vect)
+    local move_angle = self.move_vect:Angle()
+    move_angle.p = 0
+    self.move_vect = move_angle:Forward() * self.Speed
 end
 
 function ENT:PhysicsCollide(colData,collider)
@@ -40,6 +44,7 @@ function ENT:PhysicsCollide(colData,collider)
         hit_ent:TakeDamage(90, self, self)
         if self.Bounce == false then
             self:Remove()
+            self:EmitSound("npc_bloat_tboi/sfx_bloat_tear_block.wav",100,100,1)
         else
             self.move_vect = self.move_vect - 2 * (self.move_vect:Dot(colData.HitNormal)) * colData.HitNormal
         end

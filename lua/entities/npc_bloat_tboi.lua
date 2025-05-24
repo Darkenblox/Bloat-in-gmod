@@ -123,6 +123,9 @@ function ENT:Initialize()
 	self:SetState("Appear")
 	self.saidnojumpmessage = false
 
+	--sound bools
+	self.playedBrimSound = false
+
 	--set to this model for collisions and hitbox
 	self:SetModel("models/props_phx/oildrum001.mdl")	
 	self:SetCollisionBounds(Vector(-64,-64,0)/4,Vector(64,64,145)/4)
@@ -186,18 +189,19 @@ function ENT:SpawnEyes()
 	for i=0,1 do
 		local eye = ents.Create("ent_bloat_eye")
 		table.insert(self.eyes,eye)
-		eye.move_vect = Angle(0,45+90*i,0):Forward() * 500
+		eye.move_vect = Angle(0,45+90*i,0):Forward() * eye.Speed
 		eye:SetPos(self:BellyPos()-vector_up *20)
 		eye.BloatParent = self
 		eye:Spawn()
 	end
+	self:EmitSound("npc_bloat_tboi/sfx_bloat_eyes_pop.wav",100,100,1)
 end
 
 function ENT:FireTears()
 	for i=1,8 do
 		local tear = ents.Create("ent_bloat_tear")
 		tear:SetPos(self:BellyPos())
-		tear.move_vect = Angle(0,45*i,0):Forward() * 1100
+		tear.move_vect = Angle(0,45*i,0):Forward() * tear.Speed
 		tear.BloatParent = self
 		tear:Spawn()
 	end
@@ -268,6 +272,7 @@ function ENT:HandleJump(seekpos, jumprange)
 			end
 		else
 			self:SetState("JumpUp")
+			self:EmitSound("npc_bloat_tboi/sfx_bloat_sloppy_roar.wav",100,100,1)
 		end
 	end
 	--JumpUp
@@ -297,6 +302,7 @@ function ENT:HandleJump(seekpos, jumprange)
 		if self:GetFrame() > 28	and self.JumpedDown == false then
 			self:FireTears()
 			self:SpillBlood()
+			self:EmitSound("npc_bloat_tboi/sfx_bloat_stomp.wav",100,100,1)
 			self.JumpedDown = true
 			timer.Simple(1.5,function()
 				if self:IsValid() then
@@ -355,10 +361,16 @@ function ENT:RunBehaviour()
 						end
 					end
 				end
-				--Brimstate end
-				if self:GetState() == "AttackBrim" and 	self:GetFrame() > 67 then
-					self:SetState("Idle")
-					coroutine.wait(1.5)
+				--Brimstate sound and end
+				if self:GetState() == "AttackBrim" then
+					if self:GetFrame() > 8 and self.playedBrimSound == false then
+						self:EmitSound("npc_bloat_tboi/sfx_bloat_brim.wav",100,100,1)
+						self.playedBrimSound = true
+					elseif self:GetFrame() > 67 then
+						self:SetState("Idle")
+						self.playedBrimSound = false
+						coroutine.wait(1.5)
+					end
 				end					
 
 			--Idle (brim takes priority)
@@ -374,8 +386,10 @@ function ENT:RunBehaviour()
 						self.loco:SetDeceleration(1000)
 					elseif idle_transition < 20 then
 						self:SetState("AttackSlam")
+						self:EmitSound("npc_bloat_tboi/sfx_bloat_sloppy_roar.wav",100,100,1)
 					elseif idle_transition < 25 then
 						self:SetState("AttackCreep")
+						self:EmitSound("npc_bloat_tboi/sfx_bloat_roar.wav",100,100,1)
 					end
 				end
 			end
@@ -396,6 +410,7 @@ function ENT:RunBehaviour()
 				if self:GetFrame() > 37 and self.SpilledBlood == false then
 					self:SpillBlood()
 					self:FireTears()
+					self:EmitSound("npc_bloat_tboi/sfx_bloat_stomp.wav",100,100,1)
 					self.SpilledBlood = true
 					timer.Simple(1.5,function()
 						if self:IsValid() then
@@ -506,12 +521,11 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 		if v:GetClass() == "npc_bloat_tboi" then
 			local min,max = v:GetCollisionBounds()
 			local tleft,tright,tfwd,tbck = v:CheckBrim(true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
-			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
+			-- render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
+			-- render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
+			-- render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
+			-- render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
 			render.SetColorMaterial()
-			killicon.Render(50,50,"npc_bloat_tboi",255,true)
 			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
@@ -536,21 +550,24 @@ function ENT:Draw()
 			v:DrawSprite()
 		end
 	end
-
 	-- self:DrawModel()
+	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
+		self:DrawBrim(false,false)
+		self:DrawBrim(true,false)
+		self:DrawSprite()
+		self:DrawBrim(true,true)
+		self:DrawBrim(false,true)
+	else
+		self:DrawSprite()
+	end
+end	
+
+function ENT:DrawSprite()
 	self:SetRenderAngles(self:ComputeDrawNormal(LocalPlayer()):Angle())
 	render.SetMaterial(switch_mat[self:GetState()])
 	switch_mat[self:GetState()]:SetInt("$frame",math.floor(self:GetFrame()))
 	render.DrawQuadEasy(self:SprPos(),self:ComputeDrawNormal(LocalPlayer()),256,512,color_white,180)
-	
-	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
-		self:DrawBrim(false,false)
-		self:DrawBrim(true,false)
-		self:DrawBrim(true,true)
-		self:DrawBrim(false,true)
-	end
-	-- print("Message in ENT:Draw : prevent brim from checking through walls and sprite goes through as well")
-end	
+end
 
 -- this function is REALLY complicated i dunno what i was smoking
 function ENT:DrawBrim(fwd,close)
