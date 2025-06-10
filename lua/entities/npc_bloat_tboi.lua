@@ -119,7 +119,7 @@ function ENT:Initialize()
 	self.SpilledBlood 	= false
 	self.LoseTargetDist	= 2100	-- How far the enemy has to be before we lose them
 	self.SearchRadius 	= 2000	-- How far to search for enemies
-	self:SetHealth(100)
+	self:SetHealth(1500)
 	self:SetState("Appear")
 	self.saidnojumpmessage = false
 
@@ -376,24 +376,24 @@ function ENT:RunBehaviour()
 			--Idle (brim takes priority)
 			if self:GetState() == "Idle" then
 				local idle_transition = math.random(2000)
-				if 	idle_transition < 5 then 
+				if 	idle_transition < 8 then 
 					self:HandleJump(self:GetEnemy():GetPos(),1000)
-				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1200 then
+				elseif self:GetEnemy():GetPos():Distance(self:GetPos()) < 1800 then
 					if idle_transition < 14 and self:GetEnemy():GetPos():Distance(self:GetPos()) > 300 then
 						self:SetState("Walk")
 						self.loco:SetDesiredSpeed(100)
 						self.loco:SetAcceleration(100)
 						self.loco:SetDeceleration(1000)
-					elseif idle_transition < 20 then
+					elseif idle_transition < 21 then
 						self:SetState("AttackSlam")
 						self:EmitSound("npc_bloat_tboi/sfx_bloat_sloppy_roar.wav",100,100,1)
-					elseif idle_transition < 25 then
+					elseif idle_transition < 27 then
 						self:SetState("AttackCreep")
 						self:EmitSound("npc_bloat_tboi/sfx_bloat_roar.wav",100,100,1)
 					end
 				end
 			end
-
+			
 			--Jumpstate
 			if self:GetState() == "JumpUp" or self:GetState() == "JumpDown" then
 				self:HandleJump(self:GetEnemy():GetPos(),2000)
