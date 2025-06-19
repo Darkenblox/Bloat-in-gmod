@@ -1,6 +1,7 @@
 AddCSLuaFile()
 
 ENT.Base 		= "base_nextbot"
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.BellyOffset	= Vector(0,0,80)
 ENT.SprOffset 		= Vector(0,0,213)
@@ -135,7 +136,6 @@ function ENT:Initialize()
 
 	self.bloodpuddles = {}
 	util.AddNetworkString("UpdatePuddleList")
-	self:CallOnRemove("DeletePuddlesAndEyesOnRemove",function() self:DeletePuddlesAndEyes() end)	
 	-- self:SpillBlood()
 
 	self.eyes = {}
@@ -143,7 +143,7 @@ end
 
 hook.Add("Tick","DealBloodDamage",function ()
 	for k,v in pairs(ents.GetAll()) do
-		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" then
+		if (v:IsPlayer() or v:IsNPC() or v:IsNextBot()) and v.inBloatBlood and v:GetClass()!="npc_bloat_tboi" and v:GetClass() != "npc_bloat_tboi_trailerver" then
 			v:TakeDamage(1,v.puddleEnt.parentBloat,v.puddleEnt.parentBloat)
 		end
 	end
@@ -209,7 +209,7 @@ end
 
 function ENT:CreatePuddle(index,pos)
 	local bloodent = ents.Create("ent_bloat_puddle")
-	bloodent:SetNoDraw(true)
+	-- bloodent:SetNoDraw(true)
 	bloodent:SetPos(pos)
 	bloodent:SetPuddleIndex(index)
 	bloodent.parentBloat = self
@@ -495,8 +495,6 @@ function ENT:Initialize()
 			self.bloodpuddles = bloodpuddles
 		end
 	end)
-
-	self:SetRenderBounds(self:OBBMins() * 300, self:OBBMaxs() * 300)
 end
 
 function ENT:ComputeDrawBrimNormal(fwd,brimpos)					
@@ -544,20 +542,22 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 	end
 end )
 
-function ENT:Draw()
-	for k,v in pairs(self.bloodpuddles) do
-		if v:IsValid() then
-			v:DrawSprite()
-		end
-	end
+function ENT:DrawTranslucent()
+	-- for k,v in pairs(self.bloodpuddles) do
+	-- 	if v:IsValid() then
+	-- 		v:DrawSprite()
+	-- 	end
+	-- end
 	-- self:DrawModel()
 	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
+		self:SetRenderBounds(self:OBBMins() * 300, self:OBBMaxs() * 300)
 		self:DrawBrim(false,false)
 		self:DrawBrim(true,false)
 		self:DrawSprite()
 		self:DrawBrim(true,true)
 		self:DrawBrim(false,true)
 	else
+		self:SetRenderBounds(self:OBBMins()*2, self:OBBMaxs()*2)
 		self:DrawSprite()
 	end
 end	

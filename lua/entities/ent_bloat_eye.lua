@@ -6,6 +6,7 @@ ENT.Category = "TBOI"
 ENT.Spawnable = true
 ENT.PrintName = "Bloat Eye"
 ENT.ClassName = "ent_bloat_eye"
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.BloatParent = nil 
 ENT.Material = Material("npc_bloat_tboi/animations/BloatEye/BloatEye.vmt")
@@ -61,7 +62,7 @@ function ENT:ComputeDrawNormal()
     return normal
 end
 
-function ENT:Draw()
+function ENT:DrawTranslucent()
     local mins,maxs = self:GetCollisionBounds()
     -- self:DrawModel()
     render.SetMaterial(self.Material)

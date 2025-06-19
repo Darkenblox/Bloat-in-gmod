@@ -6,6 +6,7 @@ ENT.Spawnable = false
 ENT.Category = "TBOI"
 ENT.PrintName = "Bloat Puddle"
 ENT.ClassName = "ent_bloat_puddle"
+ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 -- local puddles = {
 --     ["Blood01"] = Material("npc_bloat_tboi/animations/BloatPuddle/Blood01/Blood01.vmt"),
@@ -132,7 +133,9 @@ function ENT:Think()
         collisiongroup = COLLISION_GROUP_DEBRIS,
         filter = filteredents
     },self)
-    self:SetPos(tr.HitPos + vector_up * 1)
+
+    local groundOffset = self:GetToDissolve() and 1 or 3
+    self:SetPos(tr.HitPos + vector_up * groundOffset)
 end 
 
 end
@@ -157,12 +160,11 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
     end
 end
 
-function ENT:Draw()
+function ENT:DrawTranslucent()
     self:DrawSprite()
 end
 
 function ENT:DrawSprite()
-    self:SetRenderBounds(self:OBBMins()*10,self:OBBMaxs()*10)
     if self:GetToDissolve() then
         self.spritesize = Lerp(0.01, self.spritesize, 0)
         self.color = self.color:Lerp(color_black,0.005)
