@@ -134,7 +134,7 @@ function ENT:Think()
         filter = filteredents
     },self)
 
-    local groundOffset = self:GetToDissolve() and 1 or 3
+    local groundOffset = self:GetToDissolve() and 0.05 or 0.2
     self:SetPos(tr.HitPos + vector_up * groundOffset)
 end 
 
@@ -161,10 +161,13 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
 end
 
 function ENT:DrawTranslucent()
+    -- render.SetColorMaterial()
+    -- render.DrawBox(self:GetPos(),angle_zero,self:OBBMins(),self:OBBMaxs(),color_white)
     self:DrawSprite()
 end
 
 function ENT:DrawSprite()
+    self:SetRenderBounds(self:OBBMins(), self:OBBMaxs())
     if self:GetToDissolve() then
         self.spritesize = Lerp(0.01, self.spritesize, 0)
         self.color = self.color:Lerp(color_black,0.005)

@@ -529,7 +529,7 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
 			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)		
 			-- render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
-			-- render.DrawWireframeSphere(v:BellyPos(),1200,50,50,color_red)
+			-- render.DrawWireframeSphere(v:BellyPos(),150,50,50,color_red)
 
 			-- non debug part
 			-- if v:GetState() == "AttackBrim" and v:GetFrame() >= 8 and v:GetFrame() <= 60 then
@@ -543,11 +543,16 @@ hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
 end )
 
 function ENT:DrawTranslucent()
-	-- for k,v in pairs(self.bloodpuddles) do
-	-- 	if v:IsValid() then
-	-- 		v:DrawSprite()
-	-- 	end
-	-- end
+	for k,v in pairs(self.bloodpuddles) do
+		if v:IsValid() then
+			if self:GetPos():Distance(v:GetPos()) < 175 then
+				v:SetNoDraw(true)
+				v:DrawSprite()
+			else
+				v:SetNoDraw(false)
+			end
+		end
+	end
 	-- self:DrawModel()
 	if self:GetState() == "AttackBrim" and self:GetFrame() >= 8 and self:GetFrame() <= 60 then
 		self:SetRenderBounds(self:OBBMins() * 300, self:OBBMaxs() * 300)
