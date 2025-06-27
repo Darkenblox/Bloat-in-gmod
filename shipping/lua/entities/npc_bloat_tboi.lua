@@ -136,6 +136,7 @@ function ENT:Initialize()
 	util.AddNetworkString("UpdatePuddleList")
 
 	self.eyes = {}
+	self:CallOnRemove("DeleteBloatPuddlesAndEyes",self:DeletePuddlesAndEyes())
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
@@ -451,7 +452,6 @@ end)
 function ENT:OnKilled( dmginfo )
 	hook.Call( "OnNPCKilled", GAMEMODE, self, dmginfo:GetAttacker(), dmginfo:GetInflictor() )
 	self:SetState("Death")
-	self:DeletePuddlesAndEyes()
 	-- just in case
 	timer.Simple(3,function()
 		if self:IsValid() then
