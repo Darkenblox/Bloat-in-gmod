@@ -5,8 +5,6 @@ ENT.RenderGroup = RENDERGROUP_TRANSLUCENT
 
 ENT.BellyOffset	= Vector(0,0,80)
 ENT.SprOffset 		= Vector(0,0,213)
---DONT FORGET TO CHECK IF PLAYER IS NOCLIPPING
---WARN ABT NAVMESH
 
 local color_white = Color(255,255,255)
 local color_red = Color( 255, 0, 0 )
@@ -136,7 +134,6 @@ function ENT:Initialize()
 
 	self.bloodpuddles = {}
 	util.AddNetworkString("UpdatePuddleList")
-	-- self:SpillBlood()
 
 	self.eyes = {}
 end
@@ -185,7 +182,6 @@ end
 resource.AddWorkshop(workshopID)
 
 function ENT:SpawnEyes()
-	-- spawn eyes
 	for i=0,1 do
 		local eye = ents.Create("ent_bloat_eye")
 		table.insert(self.eyes,eye)
@@ -209,7 +205,6 @@ end
 
 function ENT:CreatePuddle(index,pos)
 	local bloodent = ents.Create("ent_bloat_puddle")
-	-- bloodent:SetNoDraw(true)
 	bloodent:SetPos(pos)
 	bloodent:SetPuddleIndex(index)
 	bloodent.parentBloat = self
@@ -352,7 +347,7 @@ function ENT:RunBehaviour()
 									dmg:SetAttacker(self)
 									dmg:SetDamageForce(dmgvect)
 									dmg:SetDamage(1000)
-									v.Entity:TakeDamageInfo(dmg) --make inflictor the brimstone sprite ig
+									v.Entity:TakeDamageInfo(dmg)
 								end
 							elseif math.random(3)==1 then
 								coroutine.wait(0.5)
@@ -465,23 +460,6 @@ function ENT:OnKilled( dmginfo )
 	end)
 end
 
---to delete
-function ENT:FollowPlayer()
-	--placeholder follow nextbot
-	local path = Path("Follow")
-	local player = Entity(1)
-	self.loco:SetClimbAllowed(true)
-	path:SetMinLookAheadDistance( 3000 )
-	path:SetGoalTolerance( 200 )
-	path:Compute( self, player:GetPos() )
-	path:Draw()
-	self.loco:SetJumpHeight(1000)
-	self.loco:SetDeathDropHeight(10000)
-	self.loco:SetStepHeight(18)
-	self.loco:SetJumpGapsAllowed(true)
-	path:Update(self)
-end
-
 end
 
 if CLIENT then
@@ -499,7 +477,6 @@ end
 
 function ENT:ComputeDrawBrimNormal(fwd,brimpos)					
 	local normal = LocalPlayer():EyePos() - brimpos
-	-- render.DrawBox(pos,angle_zero,Vector(1000,1000,1000),Vector(-1000,-1000,-1000),color_red)
 	normal:Normalize()
 	local xyNormal = vector_origin
 	if fwd then 	
@@ -512,35 +489,27 @@ function ENT:ComputeDrawBrimNormal(fwd,brimpos)
 	return xyNormal
 end
 
---DebugDraw AND BrimLaser draw
-hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
-	local Playerxy = Vector(LocalPlayer():GetPos().x,LocalPlayer():GetPos().y)	
-	for k,v in pairs(ents.GetAll()) do
-		if v:GetClass() == "npc_bloat_tboi" then
-			local min,max = v:GetCollisionBounds()
-			local tleft,tright,tfwd,tbck = v:CheckBrim(true)
-			-- render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
-			-- render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
-			-- render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
-			-- render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
-			render.SetColorMaterial()
-			-- render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
-			-- render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
-			-- render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
-			-- render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)		
-			-- render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
-			-- render.DrawWireframeSphere(v:BellyPos(),150,50,50,color_red)
-
-			-- non debug part
-			-- if v:GetState() == "AttackBrim" and v:GetFrame() >= 8 and v:GetFrame() <= 60 then
-				-- v:DrawBrim(false,false)
-				-- v:DrawBrim(true,false)
-				-- v:DrawBrim(true,true)
-				-- v:DrawBrim(false,true)
-			-- end
-		end
-	end
-end )
+-- --DebugDraw
+-- hook.Add( "PostDrawTranslucentRenderables", "BloatDebug", function()
+-- 	local Playerxy = Vector(LocalPlayer():GetPos().x,LocalPlayer():GetPos().y)	
+-- 	for k,v in pairs(ents.GetAll()) do
+-- 		if v:GetClass() == "npc_bloat_tboi" then
+-- 			local min,max = v:GetCollisionBounds()
+-- 			local tleft,tright,tfwd,tbck = v:CheckBrim(true)
+-- 			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_fwd*v:GetBrimRange(),color_red,true)
+-- 			render.DrawLine(v:BellyPos(), v:BellyPos() + vector_rgt*v:GetBrimRange(),color_red,true)
+-- 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_rgt*v:GetBrimRange(),color_red,true)
+-- 			render.DrawLine(v:BellyPos(), v:BellyPos() - vector_fwd*v:GetBrimRange(),color_red,true)
+-- 			render.SetColorMaterial()
+-- 			render.DrawBox(tfwd.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+-- 			render.DrawBox(tleft.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+-- 			render.DrawBox(tright.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)
+-- 			render.DrawBox(tbck.HitPos,angle_zero,v:OBBMins()*0.65,v:OBBMaxs()*0.65,color_red)		
+-- 			render.DrawWireframeBox(v:GetPos(), v:GetAngles(),v:OBBMins(),v:OBBMaxs(),color_red)		
+-- 			render.DrawWireframeSphere(v:BellyPos(),150,50,50,color_red)
+-- 		end
+-- 	end
+-- end )
 
 function ENT:DrawTranslucent()
 	for k,v in pairs(self.bloodpuddles) do

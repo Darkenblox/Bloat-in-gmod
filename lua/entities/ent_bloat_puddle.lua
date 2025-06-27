@@ -89,7 +89,6 @@ function ENT:Initialize()
     end)
 end
 
--- -- to delete (debug)
 -- hook.Add("PlayerButtonDown","Indexchange",function(ply,button)
 --     for k,v in pairs(ents.GetAll()) do
 --         if v:GetClass() == "ent_bloat_puddle" then
@@ -161,8 +160,6 @@ function ENT:ImpactTrace(traceTbl, DMGresult)
 end
 
 function ENT:DrawTranslucent()
-    -- render.SetColorMaterial()
-    -- render.DrawBox(self:GetPos(),angle_zero,self:OBBMins(),self:OBBMaxs(),color_white)
     self:DrawSprite()
 end
 
@@ -183,7 +180,6 @@ function ENT:DrawSprite()
     mat:SetFloat("$alpha",alpha)
     render.SetMaterial(mat)
     render.DrawQuadEasy(self:GetPos(),vector_up,puddlesize,puddlesize,color_white,0)	
-    -- render.DrawWireframeBox(self:GetPos(), self:GetAngles(),self:OBBMins(),self:OBBMaxs(),color_white)
 end
 
 end
