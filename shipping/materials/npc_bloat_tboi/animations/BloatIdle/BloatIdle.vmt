@@ -1,0 +1,7 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_bloat_tboi/animations/BloatIdle/BloatIdle"
+	"$surfaceprop" "Flesh"
+	"$nolod" 1
+	"$translucent" 1
+}

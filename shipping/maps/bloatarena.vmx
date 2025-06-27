@@ -1,0 +1,2154 @@
+versioninfo
+{
+	"editorversion" "400"
+	"editorbuild" "8868"
+	"mapversion" "55"
+	"formatversion" "100"
+	"prefab" "0"
+}
+visgroups
+{
+}
+viewsettings
+{
+	"bSnapToGrid" "1"
+	"bShowGrid" "1"
+	"bShowLogicalGrid" "0"
+	"nGridSpacing" "128"
+}
+palette_plus
+{
+	"color0" "255 255 255"
+	"color1" "255 255 255"
+	"color2" "255 255 255"
+	"color3" "255 255 255"
+	"color4" "255 255 255"
+	"color5" "255 255 255"
+	"color6" "255 255 255"
+	"color7" "255 255 255"
+	"color8" "255 255 255"
+	"color9" "255 255 255"
+	"color10" "255 255 255"
+	"color11" "255 255 255"
+	"color12" "255 255 255"
+	"color13" "255 255 255"
+	"color14" "255 255 255"
+	"color15" "255 255 255"
+}
+colorcorrection_plus
+{
+	"name0" ""
+	"weight0" "1"
+	"name1" ""
+	"weight1" "1"
+	"name2" ""
+	"weight2" "1"
+	"name3" ""
+	"weight3" "1"
+}
+light_plus
+{
+	"samples_sun" "6"
+	"samples_ambient" "40"
+	"samples_vis" "256"
+	"texlight" ""
+	"incremental_delay" "0"
+	"bake_dist" "1024"
+	"radius_scale" "1"
+	"brightness_scale" "1"
+	"ao_scale" "0"
+	"bounced" "1"
+	"incremental" "1"
+	"supersample" "0"
+	"bleed_hack" "1"
+	"soften_cosine" "0"
+	"debug" "0"
+	"cubemap" "1"
+}
+postprocess_plus
+{
+	"enable" "1"
+	"copied_from_controller" "1"
+	"bloom_scale" "1"
+	"bloom_exponent" "2.5"
+	"bloom_saturation" "1"
+	"auto_exposure_min" "0.5"
+	"auto_exposure_max" "2"
+	"tonemap_percent_target" "60"
+	"tonemap_percent_bright_pixels" "2"
+	"tonemap_min_avg_luminance" "3"
+	"tonemap_rate" "1"
+	"vignette_enable" "0"
+	"vignette_start" "1"
+	"vignette_end" "2"
+	"vignette_blur" "0"
+}
+bgimages_plus
+{
+}
+world
+{
+	"id" "1"
+	"mapversion" "55"
+	"classname" "worldspawn"
+	"detailmaterial" "detail/detailsprites"
+	"detailvbsp" "detail.vbsp"
+	"maxpropscreenwidth" "-1"
+	"skyname" "sky_day01_09"
+	solid
+	{
+		"id" "1735"
+		side
+		{
+			"id" "91"
+			"plane" "(-576 256 448) (448 256 448) (448 -256 448)"
+			vertices_plus
+			{
+				"v" "-576 256 448"
+				"v" "448 256 448"
+				"v" "448 -256 448"
+				"v" "-576 -256 448"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "92"
+			"plane" "(-576 -256 384) (448 -256 384) (448 256 384)"
+			vertices_plus
+			{
+				"v" "-576 -256 384"
+				"v" "448 -256 384"
+				"v" "448 256 384"
+				"v" "-576 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "93"
+			"plane" "(-576 256 448) (-576 -256 448) (-576 -256 384)"
+			vertices_plus
+			{
+				"v" "-576 256 448"
+				"v" "-576 -256 448"
+				"v" "-576 -256 384"
+				"v" "-576 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "94"
+			"plane" "(448 256 384) (448 -256 384) (448 -256 448)"
+			vertices_plus
+			{
+				"v" "448 256 384"
+				"v" "448 -256 384"
+				"v" "448 -256 448"
+				"v" "448 256 448"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "95"
+			"plane" "(448 256 448) (-576 256 448) (-576 256 384)"
+			vertices_plus
+			{
+				"v" "448 256 448"
+				"v" "-576 256 448"
+				"v" "-576 256 384"
+				"v" "448 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "96"
+			"plane" "(448 -256 384) (-576 -256 384) (-576 -256 448)"
+			vertices_plus
+			{
+				"v" "448 -256 384"
+				"v" "-576 -256 384"
+				"v" "-576 -256 448"
+				"v" "448 -256 448"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 215 132"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "27"
+		side
+		{
+			"id" "18"
+			"plane" "(-3456 1664 1472) (3840 1664 1472) (3840 -1792 1472)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 1472"
+				"v" "-3456 1664 1472"
+				"v" "3840 1664 1472"
+				"v" "3840 -1792 1472"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "17"
+			"plane" "(-3456 1664 1472) (-3456 -1792 1472) (-3456 -1792 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 1664 1440"
+				"v" "-3456 1664 1472"
+				"v" "-3456 -1792 1472"
+				"v" "-3456 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "16"
+			"plane" "(3840 1664 -1664) (3840 -1792 -1664) (3840 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3840 -1792 1440"
+				"v" "3840 -1792 1472"
+				"v" "3840 1664 1472"
+				"v" "3840 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "15"
+			"plane" "(3840 1664 1472) (-3456 1664 1472) (-3456 1664 -1664)"
+			vertices_plus
+			{
+				"v" "3840 1664 1440"
+				"v" "3840 1664 1472"
+				"v" "-3456 1664 1472"
+				"v" "-3456 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "14"
+			"plane" "(3840 -1792 -1664) (-3456 -1792 -1664) (-3456 -1792 1472)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 1440"
+				"v" "-3456 -1792 1472"
+				"v" "3840 -1792 1472"
+				"v" "3840 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "13"
+			"plane" "(3808 -1760 1440) (3808 1632 1440) (-3424 1632 1440)"
+			vertices_plus
+			{
+				"v" "-3456 1664 1440"
+				"v" "-3456 -1792 1440"
+				"v" "3840 -1792 1440"
+				"v" "3840 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] -3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "29"
+		side
+		{
+			"id" "24"
+			"plane" "(-3456 -1792 -1664) (3840 -1792 -1664) (3840 1664 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 1664 -1664"
+				"v" "-3456 -1792 -1664"
+				"v" "3840 -1792 -1664"
+				"v" "3840 1664 -1664"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "23"
+			"plane" "(-3456 1664 1472) (-3456 -1792 1472) (-3456 -1792 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 -1632"
+				"v" "-3456 -1792 -1664"
+				"v" "-3456 1664 -1664"
+				"v" "-3456 1664 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "22"
+			"plane" "(3840 1664 -1664) (3840 -1792 -1664) (3840 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3840 1664 -1632"
+				"v" "3840 1664 -1664"
+				"v" "3840 -1792 -1664"
+				"v" "3840 -1792 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "21"
+			"plane" "(3840 1664 1472) (-3456 1664 1472) (-3456 1664 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 1664 -1632"
+				"v" "-3456 1664 -1664"
+				"v" "3840 1664 -1664"
+				"v" "3840 1664 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "20"
+			"plane" "(3840 -1792 -1664) (-3456 -1792 -1664) (-3456 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3840 -1792 -1632"
+				"v" "3840 -1792 -1664"
+				"v" "-3456 -1792 -1664"
+				"v" "-3456 -1792 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "19"
+			"plane" "(3808 1632 -1632) (3808 -1760 -1632) (-3424 -1760 -1632)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 -1632"
+				"v" "-3456 1664 -1632"
+				"v" "3840 1664 -1632"
+				"v" "3840 -1792 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "31"
+		side
+		{
+			"id" "30"
+			"plane" "(-3456 1664 1472) (-3456 -1792 1472) (-3456 -1792 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 1440"
+				"v" "-3456 -1792 -1632"
+				"v" "-3456 1664 -1632"
+				"v" "-3456 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "29"
+			"plane" "(3840 1664 1472) (-3456 1664 1472) (-3456 1664 -1664)"
+			vertices_plus
+			{
+				"v" "-3456 1664 1440"
+				"v" "-3456 1664 -1632"
+				"v" "-3424 1664 -1632"
+				"v" "-3424 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "28"
+			"plane" "(3840 -1792 -1664) (-3456 -1792 -1664) (-3456 -1792 1472)"
+			vertices_plus
+			{
+				"v" "-3424 -1792 -1632"
+				"v" "-3456 -1792 -1632"
+				"v" "-3456 -1792 1440"
+				"v" "-3424 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "27"
+			"plane" "(-3424 1632 1440) (3808 1632 1440) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "-3456 -1792 1440"
+				"v" "-3456 1664 1440"
+				"v" "-3424 1664 1440"
+				"v" "-3424 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "26"
+			"plane" "(-3424 -1760 -1632) (3808 -1760 -1632) (3808 1632 -1632)"
+			vertices_plus
+			{
+				"v" "-3456 1664 -1632"
+				"v" "-3456 -1792 -1632"
+				"v" "-3424 -1792 -1632"
+				"v" "-3424 1664 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "25"
+			"plane" "(-3424 -1760 -1632) (-3424 -1760 1440) (-3424 1632 1440)"
+			vertices_plus
+			{
+				"v" "-3424 1664 1440"
+				"v" "-3424 1664 -1632"
+				"v" "-3424 -1792 -1632"
+				"v" "-3424 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "33"
+		side
+		{
+			"id" "36"
+			"plane" "(3840 1664 -1664) (3840 -1792 -1664) (3840 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3840 1664 1440"
+				"v" "3840 1664 -1632"
+				"v" "3840 -1792 -1632"
+				"v" "3840 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "35"
+			"plane" "(3840 1664 1472) (-3456 1664 1472) (-3456 1664 -1664)"
+			vertices_plus
+			{
+				"v" "3808 1664 -1632"
+				"v" "3840 1664 -1632"
+				"v" "3840 1664 1440"
+				"v" "3808 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "34"
+			"plane" "(3840 -1792 -1664) (-3456 -1792 -1664) (-3456 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3840 -1792 1440"
+				"v" "3840 -1792 -1632"
+				"v" "3808 -1792 -1632"
+				"v" "3808 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "33"
+			"plane" "(-3424 1632 1440) (3808 1632 1440) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "3808 1664 1440"
+				"v" "3840 1664 1440"
+				"v" "3840 -1792 1440"
+				"v" "3808 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "32"
+			"plane" "(-3424 -1760 -1632) (3808 -1760 -1632) (3808 1632 -1632)"
+			vertices_plus
+			{
+				"v" "3808 -1792 -1632"
+				"v" "3840 -1792 -1632"
+				"v" "3840 1664 -1632"
+				"v" "3808 1664 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "31"
+			"plane" "(3808 -1760 1440) (3808 -1760 -1632) (3808 1632 -1632)"
+			vertices_plus
+			{
+				"v" "3808 -1792 1440"
+				"v" "3808 -1792 -1632"
+				"v" "3808 1664 -1632"
+				"v" "3808 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] -3"
+			"vaxis" "[0 0 -1 0] 3"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "35"
+		side
+		{
+			"id" "42"
+			"plane" "(3840 1664 1472) (-3456 1664 1472) (-3456 1664 -1664)"
+			vertices_plus
+			{
+				"v" "-3424 1664 -1632"
+				"v" "3808 1664 -1632"
+				"v" "3808 1664 1440"
+				"v" "-3424 1664 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "41"
+			"plane" "(-3424 1632 1440) (3808 1632 1440) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "-3424 1632 1440"
+				"v" "-3424 1664 1440"
+				"v" "3808 1664 1440"
+				"v" "3808 1632 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "40"
+			"plane" "(-3424 -1760 -1632) (3808 -1760 -1632) (3808 1632 -1632)"
+			vertices_plus
+			{
+				"v" "3808 1664 -1632"
+				"v" "-3424 1664 -1632"
+				"v" "-3424 1632 -1632"
+				"v" "3808 1632 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "39"
+			"plane" "(-3424 1632 1440) (-3424 -1760 1440) (-3424 -1760 -1632)"
+			vertices_plus
+			{
+				"v" "-3424 1632 -1632"
+				"v" "-3424 1664 -1632"
+				"v" "-3424 1664 1440"
+				"v" "-3424 1632 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "38"
+			"plane" "(3808 1632 -1632) (3808 -1760 -1632) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "3808 1664 1440"
+				"v" "3808 1664 -1632"
+				"v" "3808 1632 -1632"
+				"v" "3808 1632 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "37"
+			"plane" "(-3424 1632 -1632) (-3424 1632 1440) (3808 1632 1440)"
+			vertices_plus
+			{
+				"v" "3808 1632 -1632"
+				"v" "-3424 1632 -1632"
+				"v" "-3424 1632 1440"
+				"v" "3808 1632 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "37"
+		side
+		{
+			"id" "48"
+			"plane" "(3840 -1792 -1664) (-3456 -1792 -1664) (-3456 -1792 1472)"
+			vertices_plus
+			{
+				"v" "3808 -1792 -1632"
+				"v" "-3424 -1792 -1632"
+				"v" "-3424 -1792 1440"
+				"v" "3808 -1792 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "47"
+			"plane" "(-3424 1632 1440) (3808 1632 1440) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "3808 -1792 1440"
+				"v" "-3424 -1792 1440"
+				"v" "-3424 -1760 1440"
+				"v" "3808 -1760 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "46"
+			"plane" "(-3424 -1760 -1632) (3808 -1760 -1632) (3808 1632 -1632)"
+			vertices_plus
+			{
+				"v" "-3424 -1760 -1632"
+				"v" "-3424 -1792 -1632"
+				"v" "3808 -1792 -1632"
+				"v" "3808 -1760 -1632"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] 3"
+			"vaxis" "[0 -1 0 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "45"
+			"plane" "(-3424 1632 1440) (-3424 -1760 1440) (-3424 -1760 -1632)"
+			vertices_plus
+			{
+				"v" "-3424 -1792 1440"
+				"v" "-3424 -1792 -1632"
+				"v" "-3424 -1760 -1632"
+				"v" "-3424 -1760 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "44"
+			"plane" "(3808 1632 -1632) (3808 -1760 -1632) (3808 -1760 1440)"
+			vertices_plus
+			{
+				"v" "3808 -1760 -1632"
+				"v" "3808 -1792 -1632"
+				"v" "3808 -1792 1440"
+				"v" "3808 -1760 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[0 1 0 0] 3"
+			"vaxis" "[0 0 -1 0] 3.1"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "43"
+			"plane" "(-3424 -1760 1440) (-3424 -1760 -1632) (3808 -1760 -1632)"
+			vertices_plus
+			{
+				"v" "-3424 -1760 -1632"
+				"v" "3808 -1760 -1632"
+				"v" "3808 -1760 1440"
+				"v" "-3424 -1760 1440"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/IWILLBECOMEBACKMYMONEY"
+			"uaxis" "[1 0 0 0] -3"
+			"vaxis" "[0 0 -1 0] 3"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "220 220 220"
+			"groupid" "39"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "528"
+		side
+		{
+			"id" "85"
+			"plane" "(-576 -256 128) (448 -256 128) (448 -320 128)"
+			vertices_plus
+			{
+				"v" "-576 -256 128"
+				"v" "448 -256 128"
+				"v" "448 -320 128"
+				"v" "-576 -320 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 0] 2"
+			"vaxis" "[0 -1 0 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "86"
+			"plane" "(-576 -320 0) (448 -320 0) (448 -256 0)"
+			vertices_plus
+			{
+				"v" "-576 -320 0"
+				"v" "448 -320 0"
+				"v" "448 -256 0"
+				"v" "-576 -256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 0] 2"
+			"vaxis" "[0 -1 0 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "87"
+			"plane" "(-576 -256 128) (-576 -320 128) (-576 -320 0)"
+			vertices_plus
+			{
+				"v" "-576 -256 128"
+				"v" "-576 -320 128"
+				"v" "-576 -320 0"
+				"v" "-576 -256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[0 1 0 0] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "88"
+			"plane" "(448 -256 0) (448 -320 0) (448 -320 128)"
+			vertices_plus
+			{
+				"v" "448 -256 0"
+				"v" "448 -320 0"
+				"v" "448 -320 128"
+				"v" "448 -256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[0 1 0 0] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "89"
+			"plane" "(448 -256 128) (-576 -256 128) (-576 -256 0)"
+			vertices_plus
+			{
+				"v" "448 -256 128"
+				"v" "-576 -256 128"
+				"v" "-576 -256 0"
+				"v" "448 -256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 -2] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "90"
+			"plane" "(448 -320 0) (-576 -320 0) (-576 -320 128)"
+			vertices_plus
+			{
+				"v" "448 -320 0"
+				"v" "-576 -320 0"
+				"v" "-576 -320 128"
+				"v" "448 -320 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 0] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 229 162"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "1740"
+		side
+		{
+			"id" "109"
+			"plane" "(-576 -256 384) (448 -256 384) (448 -320 384)"
+			vertices_plus
+			{
+				"v" "-576 -256 384"
+				"v" "448 -256 384"
+				"v" "448 -320 384"
+				"v" "-576 -320 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "110"
+			"plane" "(-576 -320 128) (448 -320 128) (448 -256 128)"
+			vertices_plus
+			{
+				"v" "-576 -320 128"
+				"v" "448 -320 128"
+				"v" "448 -256 128"
+				"v" "-576 -256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "111"
+			"plane" "(-576 -256 384) (-576 -320 384) (-576 -320 128)"
+			vertices_plus
+			{
+				"v" "-576 -256 384"
+				"v" "-576 -320 384"
+				"v" "-576 -320 128"
+				"v" "-576 -256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "112"
+			"plane" "(448 -256 128) (448 -320 128) (448 -320 384)"
+			vertices_plus
+			{
+				"v" "448 -256 128"
+				"v" "448 -320 128"
+				"v" "448 -320 384"
+				"v" "448 -256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "113"
+			"plane" "(448 -256 384) (-576 -256 384) (-576 -256 128)"
+			vertices_plus
+			{
+				"v" "448 -256 384"
+				"v" "-576 -256 384"
+				"v" "-576 -256 128"
+				"v" "448 -256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "114"
+			"plane" "(448 -320 128) (-576 -320 128) (-576 -320 384)"
+			vertices_plus
+			{
+				"v" "448 -320 128"
+				"v" "-576 -320 128"
+				"v" "-576 -320 384"
+				"v" "448 -320 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 129 218"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "1741"
+		side
+		{
+			"id" "115"
+			"plane" "(-576 320 384) (448 320 384) (448 256 384)"
+			vertices_plus
+			{
+				"v" "-576 320 384"
+				"v" "448 320 384"
+				"v" "448 256 384"
+				"v" "-576 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "116"
+			"plane" "(-576 256 128) (448 256 128) (448 320 128)"
+			vertices_plus
+			{
+				"v" "-576 256 128"
+				"v" "448 256 128"
+				"v" "448 320 128"
+				"v" "-576 320 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "117"
+			"plane" "(-576 320 384) (-576 256 384) (-576 256 128)"
+			vertices_plus
+			{
+				"v" "-576 320 384"
+				"v" "-576 256 384"
+				"v" "-576 256 128"
+				"v" "-576 320 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "118"
+			"plane" "(448 320 128) (448 256 128) (448 256 384)"
+			vertices_plus
+			{
+				"v" "448 320 128"
+				"v" "448 256 128"
+				"v" "448 256 384"
+				"v" "448 320 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "119"
+			"plane" "(448 320 384) (-576 320 384) (-576 320 128)"
+			vertices_plus
+			{
+				"v" "448 320 384"
+				"v" "-576 320 384"
+				"v" "-576 320 128"
+				"v" "448 320 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "120"
+			"plane" "(448 256 128) (-576 256 128) (-576 256 384)"
+			vertices_plus
+			{
+				"v" "448 256 128"
+				"v" "-576 256 128"
+				"v" "-576 256 384"
+				"v" "448 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 171 168"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "524"
+		side
+		{
+			"id" "73"
+			"plane" "(-576 320 128) (448 320 128) (448 256 128)"
+			vertices_plus
+			{
+				"v" "-576 320 128"
+				"v" "448 320 128"
+				"v" "448 256 128"
+				"v" "-576 256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 64] 2"
+			"vaxis" "[0 -1 0 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "74"
+			"plane" "(-576 256 0) (448 256 0) (448 320 0)"
+			vertices_plus
+			{
+				"v" "-576 256 0"
+				"v" "448 256 0"
+				"v" "448 320 0"
+				"v" "-576 320 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 64] 2"
+			"vaxis" "[0 -1 0 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "75"
+			"plane" "(-576 320 128) (-576 256 128) (-576 256 0)"
+			vertices_plus
+			{
+				"v" "-576 320 128"
+				"v" "-576 256 128"
+				"v" "-576 256 0"
+				"v" "-576 320 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[0 1 0 0] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "76"
+			"plane" "(448 320 0) (448 256 0) (448 256 128)"
+			vertices_plus
+			{
+				"v" "448 320 0"
+				"v" "448 256 0"
+				"v" "448 256 128"
+				"v" "448 320 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[0 1 0 0] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "77"
+			"plane" "(448 320 128) (-576 320 128) (-576 320 0)"
+			vertices_plus
+			{
+				"v" "448 320 128"
+				"v" "-576 320 128"
+				"v" "-576 320 0"
+				"v" "448 320 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 64] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "78"
+			"plane" "(448 256 0) (-576 256 0) (-576 256 128)"
+			vertices_plus
+			{
+				"v" "448 256 0"
+				"v" "-576 256 0"
+				"v" "-576 256 128"
+				"v" "448 256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL"
+			"uaxis" "[1 0 0 67] 2"
+			"vaxis" "[0 0 -1 0] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 117 206"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "523"
+		side
+		{
+			"id" "67"
+			"plane" "(-640 256 128) (-576 256 128) (-576 -256 128)"
+			vertices_plus
+			{
+				"v" "-640 256 128"
+				"v" "-576 256 128"
+				"v" "-576 -256 128"
+				"v" "-640 -256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 -1 0 0] 2"
+			"vaxis" "[-1 0 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "68"
+			"plane" "(-640 -256 0) (-576 -256 0) (-576 256 0)"
+			vertices_plus
+			{
+				"v" "-640 -256 0"
+				"v" "-576 -256 0"
+				"v" "-576 256 0"
+				"v" "-640 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 -1 0 0] 2"
+			"vaxis" "[-1 0 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "69"
+			"plane" "(-640 256 128) (-640 -256 128) (-640 -256 0)"
+			vertices_plus
+			{
+				"v" "-640 256 128"
+				"v" "-640 -256 128"
+				"v" "-640 -256 0"
+				"v" "-640 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[0 -1 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "70"
+			"plane" "(-576 256 0) (-576 -256 0) (-576 -256 128)"
+			vertices_plus
+			{
+				"v" "-576 256 0"
+				"v" "-576 -256 0"
+				"v" "-576 -256 128"
+				"v" "-576 256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[0 -1 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "71"
+			"plane" "(-576 256 128) (-640 256 128) (-640 256 0)"
+			vertices_plus
+			{
+				"v" "-576 256 128"
+				"v" "-640 256 128"
+				"v" "-640 256 0"
+				"v" "-576 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[-1 0 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "72"
+			"plane" "(-576 -256 0) (-640 -256 0) (-640 -256 128)"
+			vertices_plus
+			{
+				"v" "-576 -256 0"
+				"v" "-640 -256 0"
+				"v" "-640 -256 128"
+				"v" "-576 -256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[-1 0 0 -128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 227 204"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "527"
+		side
+		{
+			"id" "79"
+			"plane" "(448 256 128) (512 256 128) (512 -256 128)"
+			vertices_plus
+			{
+				"v" "448 256 128"
+				"v" "512 256 128"
+				"v" "512 -256 128"
+				"v" "448 -256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 -1 0 0] 2"
+			"vaxis" "[-1 0 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "80"
+			"plane" "(448 -256 0) (512 -256 0) (512 256 0)"
+			vertices_plus
+			{
+				"v" "448 -256 0"
+				"v" "512 -256 0"
+				"v" "512 256 0"
+				"v" "448 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 -1 0 0] 2"
+			"vaxis" "[-1 0 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "81"
+			"plane" "(448 256 128) (448 -256 128) (448 -256 0)"
+			vertices_plus
+			{
+				"v" "448 256 128"
+				"v" "448 -256 128"
+				"v" "448 -256 0"
+				"v" "448 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[0 -1 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "82"
+			"plane" "(512 256 0) (512 -256 0) (512 -256 128)"
+			vertices_plus
+			{
+				"v" "512 256 0"
+				"v" "512 -256 0"
+				"v" "512 -256 128"
+				"v" "512 256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[0 -1 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "83"
+			"plane" "(512 256 128) (448 256 128) (448 256 0)"
+			vertices_plus
+			{
+				"v" "512 256 128"
+				"v" "448 256 128"
+				"v" "448 256 0"
+				"v" "512 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[-1 0 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "84"
+			"plane" "(512 -256 0) (448 -256 0) (448 -256 128)"
+			vertices_plus
+			{
+				"v" "512 -256 0"
+				"v" "448 -256 0"
+				"v" "448 -256 128"
+				"v" "512 -256 128"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHWALL1"
+			"uaxis" "[0 0 -1 0] 2"
+			"vaxis" "[-1 0 0 128] 2"
+			"rotation" "-90"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 127 140"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "1739"
+		side
+		{
+			"id" "103"
+			"plane" "(448 256 384) (512 256 384) (512 -256 384)"
+			vertices_plus
+			{
+				"v" "448 256 384"
+				"v" "512 256 384"
+				"v" "512 -256 384"
+				"v" "448 -256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "104"
+			"plane" "(448 -256 128) (512 -256 128) (512 256 128)"
+			vertices_plus
+			{
+				"v" "448 -256 128"
+				"v" "512 -256 128"
+				"v" "512 256 128"
+				"v" "448 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "105"
+			"plane" "(448 256 384) (448 -256 384) (448 -256 128)"
+			vertices_plus
+			{
+				"v" "448 256 384"
+				"v" "448 -256 384"
+				"v" "448 -256 128"
+				"v" "448 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "106"
+			"plane" "(512 256 128) (512 -256 128) (512 -256 384)"
+			vertices_plus
+			{
+				"v" "512 256 128"
+				"v" "512 -256 128"
+				"v" "512 -256 384"
+				"v" "512 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "107"
+			"plane" "(512 256 384) (448 256 384) (448 256 128)"
+			vertices_plus
+			{
+				"v" "512 256 384"
+				"v" "448 256 384"
+				"v" "448 256 128"
+				"v" "512 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "108"
+			"plane" "(512 -256 128) (448 -256 128) (448 -256 384)"
+			vertices_plus
+			{
+				"v" "512 -256 128"
+				"v" "448 -256 128"
+				"v" "448 -256 384"
+				"v" "512 -256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 199 240"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "1738"
+		side
+		{
+			"id" "97"
+			"plane" "(-640 256 384) (-576 256 384) (-576 -256 384)"
+			vertices_plus
+			{
+				"v" "-640 256 384"
+				"v" "-576 256 384"
+				"v" "-576 -256 384"
+				"v" "-640 -256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "98"
+			"plane" "(-640 -256 128) (-576 -256 128) (-576 256 128)"
+			vertices_plus
+			{
+				"v" "-640 -256 128"
+				"v" "-576 -256 128"
+				"v" "-576 256 128"
+				"v" "-640 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "99"
+			"plane" "(-640 256 384) (-640 -256 384) (-640 -256 128)"
+			vertices_plus
+			{
+				"v" "-640 256 384"
+				"v" "-640 -256 384"
+				"v" "-640 -256 128"
+				"v" "-640 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "100"
+			"plane" "(-576 256 128) (-576 -256 128) (-576 -256 384)"
+			vertices_plus
+			{
+				"v" "-576 256 128"
+				"v" "-576 -256 128"
+				"v" "-576 -256 384"
+				"v" "-576 256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "101"
+			"plane" "(-576 256 384) (-640 256 384) (-640 256 128)"
+			vertices_plus
+			{
+				"v" "-576 256 384"
+				"v" "-640 256 384"
+				"v" "-640 256 128"
+				"v" "-576 256 128"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "102"
+			"plane" "(-576 -256 128) (-640 -256 128) (-640 -256 384)"
+			vertices_plus
+			{
+				"v" "-576 -256 128"
+				"v" "-640 -256 128"
+				"v" "-640 -256 384"
+				"v" "-576 -256 384"
+			}
+			"material" "HALFLIFE/BLACK"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 249 162"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	solid
+	{
+		"id" "1761"
+		side
+		{
+			"id" "121"
+			"plane" "(-384 0 128) (-256 0 128) (-256 -128 128)"
+			vertices_plus
+			{
+				"v" "-384 0 128"
+				"v" "-256 0 128"
+				"v" "-256 -128 128"
+				"v" "-384 -128 128"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "122"
+			"plane" "(-384 -128 0) (-256 -128 0) (-256 0 0)"
+			vertices_plus
+			{
+				"v" "-384 -128 0"
+				"v" "-256 -128 0"
+				"v" "-256 0 0"
+				"v" "-384 0 0"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 -1 0 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "123"
+			"plane" "(-384 0 128) (-384 -128 128) (-384 -128 0)"
+			vertices_plus
+			{
+				"v" "-384 0 128"
+				"v" "-384 -128 128"
+				"v" "-384 -128 0"
+				"v" "-384 0 0"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "124"
+			"plane" "(-256 0 0) (-256 -128 0) (-256 -128 128)"
+			vertices_plus
+			{
+				"v" "-256 0 0"
+				"v" "-256 -128 0"
+				"v" "-256 -128 128"
+				"v" "-256 0 128"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[0 1 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "125"
+			"plane" "(-256 0 128) (-384 0 128) (-384 0 0)"
+			vertices_plus
+			{
+				"v" "-256 0 128"
+				"v" "-384 0 128"
+				"v" "-384 0 0"
+				"v" "-256 0 0"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "126"
+			"plane" "(-256 -128 0) (-384 -128 0) (-384 -128 128)"
+			vertices_plus
+			{
+				"v" "-256 -128 0"
+				"v" "-384 -128 0"
+				"v" "-384 -128 128"
+				"v" "-256 -128 128"
+			}
+			"material" "NPC_BLOAT_TBOI/ANIMATIONS/BLOATATTACKBRIM/BLOATATTACKBRIM"
+			"uaxis" "[1 0 0 0] 0.25"
+			"vaxis" "[0 0 -1 0] 0.25"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 197 230"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	group
+	{
+		"id" "39"
+		editor
+		{
+			"color" "220 220 220"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+}
+entity
+{
+	"id" "3"
+	"classname" "info_player_start"
+	"angles" "0 0 -0.447614"
+	"origin" "64 32.0078 -0.250069"
+	editor
+	{
+		"color" "0 255 0"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 0]"
+	}
+}
+entity
+{
+	"id" "59"
+	"classname" "func_detail"
+	solid
+	{
+		"id" "2"
+		side
+		{
+			"id" "54"
+			"plane" "(448 256 0) (448 -256 0) (-576 -256 0)"
+			vertices_plus
+			{
+				"v" "448 256 0"
+				"v" "448 -256 0"
+				"v" "-576 -256 0"
+				"v" "-576 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[1 0 0 287] 2"
+			"vaxis" "[0 -1 0.00878872 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "53"
+			"plane" "(448 -256 -64) (448 256 -64) (-576 256 -64)"
+			vertices_plus
+			{
+				"v" "448 -256 -64"
+				"v" "448 256 -64"
+				"v" "-576 256 -64"
+				"v" "-576 -256 -64"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[1 0 0 287] 2"
+			"vaxis" "[0 -1 0.00878872 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "52"
+			"plane" "(-576 -256 0) (-576 -256 -64) (-576 256 -64)"
+			vertices_plus
+			{
+				"v" "-576 -256 0"
+				"v" "-576 -256 -64"
+				"v" "-576 256 -64"
+				"v" "-576 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[0 1 0 287] 2"
+			"vaxis" "[0 0 -1 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "51"
+			"plane" "(448 -256 -64) (448 -256 0) (448 256 0)"
+			vertices_plus
+			{
+				"v" "448 -256 -64"
+				"v" "448 -256 0"
+				"v" "448 256 0"
+				"v" "448 256 -64"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[0 1 0 287] 2"
+			"vaxis" "[0 0 -1 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "50"
+			"plane" "(-576 256 0) (-576 256 -64) (448 256 -64)"
+			vertices_plus
+			{
+				"v" "-576 256 0"
+				"v" "-576 256 -64"
+				"v" "448 256 -64"
+				"v" "448 256 0"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[1 0 0 287] 2"
+			"vaxis" "[0 0 -1 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		side
+		{
+			"id" "49"
+			"plane" "(-576 -256 -64) (-576 -256 0) (448 -256 0)"
+			vertices_plus
+			{
+				"v" "-576 -256 -64"
+				"v" "-576 -256 0"
+				"v" "448 -256 0"
+				"v" "448 -256 -64"
+			}
+			"material" "NPC_BLOAT_TBOI/WORLDBRUSHES/DEPTHGROUND"
+			"uaxis" "[1 0 0 287] 2"
+			"vaxis" "[0 0 -1 127] 2"
+			"rotation" "0"
+			"lightmapscale" "16"
+			"smoothing_groups" "0"
+		}
+		editor
+		{
+			"color" "0 180 0"
+			"visgroupshown" "1"
+			"visgroupautoshown" "1"
+		}
+	}
+	editor
+	{
+		"color" "0 180 0"
+		"visgroupshown" "1"
+		"visgroupautoshown" "1"
+		"logicalpos" "[0 1500]"
+	}
+}
+cameras
+{
+	"activecamera" "-1"
+}
+cordons
+{
+	"active" "0"
+}

@@ -1,0 +1,15 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_bloat_tboi/animations/BloatBrim/BloatBrim03/BloatBrim03"
+	"$surfaceprop" "Flesh"
+	"$nolod" 1
+	"$translucent" 1
+	"Proxies" {
+		"AnimatedTexture" {
+			"animatedTextureVar" "$basetexture"
+			"animatedTextureFrameNumVar" "$frame"
+			"animatedTextureFrameate" "30"
+		}
+	}
+}
+

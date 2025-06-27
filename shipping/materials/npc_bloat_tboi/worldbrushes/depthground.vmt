@@ -1,0 +1,5 @@
+"UnlitGeneric"
+{
+	"$basetexture" "npc_bloat_tboi/worldbrushes/depthground"
+	"$surfaceprop" "Concrete"
+}
