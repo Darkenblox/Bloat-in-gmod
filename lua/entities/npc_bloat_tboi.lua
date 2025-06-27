@@ -136,7 +136,7 @@ function ENT:Initialize()
 	util.AddNetworkString("UpdatePuddleList")
 
 	self.eyes = {}
-	self:CallOnRemove("DeleteBloatPuddlesAndEyes",self:DeletePuddlesAndEyes())
+	self:CallOnRemove("DeleteBloatPuddlesAndEyes",function() self:DeletePuddlesAndEyes() end)
 end
 
 hook.Add("Tick","DealBloodDamage",function ()
