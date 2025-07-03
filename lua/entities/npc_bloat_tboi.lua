@@ -14,7 +14,7 @@ local vector_fwd = Vector(1,0,0)
 local vector_rgt = Vector(0,1,0)
 local vector_up = Vector(0,0,1)
 
-local workshopID = ""
+local workshopID = "3510267072"
 
 local switch_mat = {
 	["Death"] = Material("npc_bloat_tboi/animations/BloatDeath/BloatDeath.vmt"),
